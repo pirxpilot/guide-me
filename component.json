@@ -4,8 +4,15 @@
   "description": "Data driven feature tour.",
   "version": "0.0.1",
   "keywords": [],
-  "dependencies": {},
-  "development": {},
+  "dependencies": {
+    "code42day/dataset": "*",
+    "component/emitter": "*",
+    "pirxpilot/confirmation-popover": "1.0.0",
+    "component/query": "*"
+  },
+  "development": {
+    "component/aurora-popover": "*"
+  },
   "license": "MIT",
   "main": "index.js",
   "scripts": [

@@ -1,0 +1,62 @@
+<html>
+  <head>
+    <title>Tour</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" href="build/build.css" type="text/css">
+    <style>
+      body {
+        padding: 4em;
+        background-color: #FFDC00;
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      [data-tour-id="button"] {
+        display: block;
+        float: right;
+      }
+
+      [data-tour-id="image"] {
+        display: block;
+        clear: both;
+        margin: 3em auto;
+        width: 288px;
+      }
+
+      [data-tour-id="text"] {
+        display: block;
+        width: 30%;
+      }
+
+      .start {
+        font-size: 1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <button class="start">Click to Start Tour</button>
+    <input data-tour-id="button" type="submit" value="Important button"></input>
+    <img data-tour-id="image" src='https://lh3.googleusercontent.com/-ndFbEVL6ZsQ/UqUV6v5XWvI/AAAAAAAAfnw/_4FYnvUYMDU/s288/P1400253.JPG'>
+    <p data-tour-id="text">
+      Id eros vidit pri. Ad amet explicari vel. Cum ne patrioque voluptatum, sed mutat facilisi no. Quem detraxit has at, nec at wisi signiferumque, ea sit amet legimus. Erat munere accusam ne sed, an eos delenit inermis omittantur.</p>
+    <div class='hidden'>
+      <span data-tour-content="button">This is how we start the tour.</span>
+      <div data-tour-content="image">
+        <p>We have nice picture here.</p>
+        <p><em>Seen enough?</em></p>
+      </div>
+      <div data-tour-content="text">
+        And that is the last element...
+      </div>
+    </div>
+    <script src="build/build.js"></script>
+    <script>
+      var tour = require('tour');
+      document.querySelector('.start').addEventListener('click', function() {
+        tour().play();
+      });
+    </script>
+  </body>
+</html>

@@ -1,12 +1,11 @@
 NODE_BIN=./node_modules/.bin
 
+all: check build
+
 check: lint
 
 lint:
-	$(NODE_BIN)/jshint index.js test
-
-test:
-	$(NODE_BIN)/mocha --require should test
+	$(NODE_BIN)/jshint index.js
 
 build: components index.js
 	@component build --dev
