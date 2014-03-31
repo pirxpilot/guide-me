@@ -1,0 +1,26 @@
+{
+  "name": "code42day-tour",
+  "version": "0.0.1",
+  "description": "Data driven feature tour", 
+  "main": "index.js",
+  "scripts": {
+    "test": "make check"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/code42day/tour.git"
+  },
+  "keywords": [
+    "component-js",
+    "feature tour"
+  ],
+  "author": "Damian Krzeminski <pirxpilot@code42day.com>",
+  "license": "MIT",
+  "readmeFilename": "Readme.md",
+  "bugs": {
+    "url": "https://github.com/code42day/el/issues"
+  },
+  "devDependencies": {
+    "jshint": "~2"
+  }
+}
