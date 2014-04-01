@@ -1,5 +1,6 @@
 var q = require('query');
 var ds = require('dataset');
+var classes = require('classes');
 var Popover = require('confirmation-popover');
 var Emitter = require('emitter');
 
@@ -55,13 +56,17 @@ Tour.prototype.play = function() {
   self.showStep(self.current);
 };
 
+Tour.prototype.updateNext = function(index) {
+  classes(q('.ok', this.popover.el)).toggle('hidden', index + 1 >= this.steps.length);
+};
+
 Tour.prototype.showStep = function(index) {
   var step = this.steps[index];
 
   if (!step) {
     return;
   }
-  if (index >= this.steps.length);
+  this.updateNext(index);
   this.popover
     .confirmation('')
     .confirmation(step.contentEl.cloneNode(true))

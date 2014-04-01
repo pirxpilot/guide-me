@@ -5,10 +5,11 @@
   "version": "0.0.1",
   "keywords": [],
   "dependencies": {
-    "code42day/dataset": "*",
-    "component/emitter": "*",
+    "code42day/dataset": "0.3.0",
+    "component/classes": "1.2.1",
+    "component/emitter": "1.1.2",
     "pirxpilot/confirmation-popover": "1.0.0",
-    "component/query": "*"
+    "component/query": "0.0.3"
   },
   "development": {
     "component/aurora-popover": "*"
