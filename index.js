@@ -1,6 +1,7 @@
 var q = require('query');
 var ds = require('dataset');
 var classes = require('classes');
+var overlay = require('overlay');
 var Popover = require('confirmation-popover');
 var Emitter = require('emitter');
 
@@ -34,9 +35,9 @@ Tour.prototype.play = function() {
   var self = this;
 
   self.emit('begin');
-  if (!this.popover) {
-    this.popover = new Popover('');
-    this.popover
+  if (!self.popover) {
+    self.popover = new Popover('');
+    self.popover
       .cancel('Close')
       .ok('Next')
       .focus('ok')
@@ -47,12 +48,16 @@ Tour.prototype.play = function() {
         self.emit('hide', self.current);
       })
       .on('cancel', function() {
+        self.overlay.remove();
+        self.overlay = null;
         self.emit('end');
       })
       .on('ok', function() {
         setTimeout(self.showStep.bind(self, ++self.current), 0);
       });
   }
+  self.overlay = overlay();
+  self.overlay.show();
   self.showStep(self.current);
 };
 
