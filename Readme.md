@@ -9,15 +9,52 @@
 
     $ component install code42day/tour
 
+  Live demo is [here](http://code42day.github.io/tour/)
+
 ## API
 
+### `Tour.play`
+
+Call `play to start the tour.
+
+```javascript
+    var tour = require('tour');
+    tour().play();
+```
+
+Tour is driven by HTML content. Elements with `data-tour-content` attribute are considered tour
+steps. Each step describes DOM element with `data-tour-id` attribute.
+
+```html
+<div class='hidden'>
+  <span data-tour-content="button">This is how we start the tour.</span>
+  <div data-tour-content="image">
+    <p>We have nice picture here.</p>
+    <p><em>Seen enough?</em></p>
+  </div>
+  <div data-tour-content="text">
+    And that is the last element...
+  </div>
+</div>
+```
+
+The above example assumes that somewhere else on the page we have the corresponsing elements. The
+order of those does not matter, and they can be in any part of DOM tree.
+
+```html
+<img data-tour-id="image" src='cute-cats.png'>
+<p data-tour-id="text">
+  Id eros vidit pri...
+</p>
+<input data-tour-id="button" type="submit" value="Important button"></input>
+```
 
 
 ## License
 
   The MIT License (MIT)
 
-  Copyright (c) 2014 <copyright holders>
+  Copyright (c) 2014 code42day
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
