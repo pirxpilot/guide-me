@@ -14,7 +14,7 @@ function steps() {
     return {
       id: id,
       contentEl: el,
-      refEl: q('[data-tour-id="' + id + '"]')
+      refEl: q('[data-tour-id="' + id + '"]') || q(id)
     };
   })
   .filter(function(step) {

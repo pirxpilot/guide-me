@@ -49,6 +49,17 @@ order of those does not matter, and they can be in any part of DOM tree.
 <input data-tour-id="button" type="submit" value="Important button"></input>
 ```
 
+Please note that `data-tour-content` can also contain CSS query expression to locate the element
+associated with the step.
+
+```html
+<div id='first'>
+  <img class="image" src='cute-cats.png'>
+</div>
+
+<!-- This step refers to its element by CSS query -->
+<span data-tour-content="#first .image">This is how we start the tour.</span>
+```
 
 ## License
 
