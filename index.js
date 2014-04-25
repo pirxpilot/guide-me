@@ -57,6 +57,7 @@ Tour.prototype.play = function() {
       });
   }
   self.overlay = overlay();
+  classes(self.overlay.el).add('tour-overlay');
   self.overlay.show();
   self.showStep(self.current);
 };
