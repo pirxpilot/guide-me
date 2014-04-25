@@ -9,7 +9,7 @@
     "component/classes": "1.2.1",
     "component/emitter": "1.1.2",
     "component/confirmation-popover": "1.0.1",
-    "component/overlay": "0.1.1",
+    "component/overlay": "0.3.0",
     "component/query": "0.0.3"
   },
   "development": {
