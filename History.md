@@ -1,4 +1,10 @@
 
+0.3.0 / 2014-04-24
+==================
+
+ * use 'tour-overlay' class for overlay
+ * update overlay dependency
+
 0.2.0 / 2014-04-23
 ==================
 
