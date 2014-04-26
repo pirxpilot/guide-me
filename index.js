@@ -10,10 +10,12 @@ module.exports = Tour;
 // parse HTML to create a list of steps - tour-id / tour-content need to match
 function steps() {
   return Array.prototype.map.call(q.all('[data-tour-content]'), function(el) {
-    var id = ds(el, 'tourContent');
+    var data = ds(el),
+      id = data.get('tourContent');
     return {
       id: id,
       contentEl: el,
+      position: data.get('position') || 'bottom',
       refEl: q('[data-tour-id="' + id + '"]') || q(id)
     };
   })
@@ -76,5 +78,6 @@ Tour.prototype.showStep = function(index) {
   this.popover
     .confirmation('')
     .confirmation(step.contentEl.cloneNode(true))
+    .position(step.position)
     .show(step.refEl);
 };
