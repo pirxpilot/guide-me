@@ -39,6 +39,7 @@ Tour.prototype.play = function() {
   self.emit('begin');
   if (!self.popover) {
     self.popover = new Popover('');
+    self.popover.classname += ' tour-popover';
     self.popover
       .cancel('Close')
       .ok('Next')
