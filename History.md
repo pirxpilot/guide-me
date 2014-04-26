@@ -1,4 +1,10 @@
 
+0.5.0 / 2014-04-26
+==================
+
+ * mark active step element
+ * use tour-popover CSS class for step popovers
+
 0.4.0 / 2014-04-25
 ==================
 
