@@ -61,6 +61,15 @@ associated with the step.
 <span data-tour-content="#first .image">This is how we start the tour.</span>
 ```
 
+Default position of step popover is `bottom`. It can be changed by specifying `data-position` attribute.
+
+```html
+<span data-tour-content="#abc" data-position='left'>
+  This step is displayed to the left of item with abc id.
+</span>
+```
+
+
 ## License
 
   The MIT License (MIT)
