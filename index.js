@@ -33,6 +33,12 @@ function Tour() {
 
 Emitter(Tour.prototype);
 
+Tour.prototype.overlay = function(options) {
+  this._overlay = overlay(options);
+  classes(this._overlay.el).add('tour-overlay');
+  return this;
+};
+
 Tour.prototype.play = function() {
   var self = this;
 
@@ -52,8 +58,9 @@ Tour.prototype.play = function() {
       })
       .on('cancel', function() {
         self.markStep(false);
-        self.overlay.remove();
-        self.overlay = null;
+        if (self._overlay) {
+          self._overlay.hide();
+        }
         self.emit('end');
       })
       .on('ok', function() {
@@ -61,9 +68,9 @@ Tour.prototype.play = function() {
         setTimeout(self.showStep.bind(self, ++self.current), 0);
       });
   }
-  self.overlay = overlay();
-  classes(self.overlay.el).add('tour-overlay');
-  self.overlay.show();
+  if (self._overlay) {
+    self._overlay.show();
+  }
   self.showStep(self.current);
 };
 
