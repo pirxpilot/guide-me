@@ -51,11 +51,13 @@ Tour.prototype.play = function() {
         self.emit('hide', self.current);
       })
       .on('cancel', function() {
+        self.markStep(false);
         self.overlay.remove();
         self.overlay = null;
         self.emit('end');
       })
       .on('ok', function() {
+        self.markStep(false);
         setTimeout(self.showStep.bind(self, ++self.current), 0);
       });
   }
@@ -65,8 +67,17 @@ Tour.prototype.play = function() {
   self.showStep(self.current);
 };
 
+// hides next button for last step
 Tour.prototype.updateNext = function(index) {
   classes(q('.ok', this.popover.el)).toggle('hidden', index + 1 >= this.steps.length);
+};
+
+// marks element associated with active step
+Tour.prototype.markStep = function(on) {
+  var step = this.steps[this.current];
+  if (step) {
+    classes(step.refEl).toggle('tour-active-step', on);
+  }
 };
 
 Tour.prototype.showStep = function(index) {
@@ -75,6 +86,7 @@ Tour.prototype.showStep = function(index) {
   if (!step) {
     return;
   }
+  this.markStep(true);
   this.updateNext(index);
   this.popover
     .confirmation('')
