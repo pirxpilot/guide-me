@@ -69,6 +69,13 @@ Default position of step popover is `bottom`. It can be changed by specifying `d
 </span>
 ```
 
+### Styling
+
+Tour specific CSS can be used to style tours popovers and to mark the active steps.
+
+- `tour-popover` is used for tour popovers
+- `tour-active-step` marks the element associated with current active step
+- `tour-overlay` allows changing the overlay defaults
 
 ## License
 
