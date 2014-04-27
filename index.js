@@ -29,6 +29,7 @@ function steps() {
 function createPopover(self, step) {
   self.popover = new Popover(step.contentEl.cloneNode(true));
   self.popover.classname += ' tour-popover';
+  self.popover.classes.add('tour-popover');
   self.updateNext();
   self.popover
     .cancel('Close')
@@ -136,6 +137,8 @@ Tour.prototype.react = function(delay) {
   }
 
   var popover = this.popover.hide();
+  popover.classname += ' tour-reacted';
+  popover.classes.add('tour-reacted');
   setTimeout(function() {
     popover.show(step.refEl);
   }, delay);
