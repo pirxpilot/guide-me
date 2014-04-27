@@ -10,7 +10,7 @@
       }
 
       .overlay.tour-overlay {
-        background: transparent;
+        background-color: rgba(255, 255, 255, .3);
       }
 
       .hidden {
@@ -26,7 +26,12 @@
         display: block;
         clear: both;
         margin: 3em auto;
+        transition: all .3s ease-in-out;
         width: 288px;
+      }
+
+      .flowers.big {
+        width: 100px;
       }
 
       .flowers.tour-active-step {
@@ -39,7 +44,7 @@
         width: 30%;
       }
 
-      .start {
+      .buttons button {
         font-size: 1rem;
       }
 
@@ -50,7 +55,10 @@
     </style>
   </head>
   <body>
-    <button class="start">Click to Start Tour</button>
+    <div class='buttons'>
+      <button class="start">Click to Start Tour</button>
+      <button class="start-overlay">Click to Start Tour with Overlay</button>
+    </div>
     <input data-tour-id="button" type="submit" value="Important button"></input>
     <img class="flowers" src='https://lh3.googleusercontent.com/-ndFbEVL6ZsQ/UqUV6v5XWvI/AAAAAAAAfnw/_4FYnvUYMDU/s288/P1400253.JPG'>
     <p data-tour-id="text">
@@ -58,7 +66,7 @@
     <div class='hidden'>
       <span data-tour-content="button">This is how we start the tour.</span>
       <div data-tour-content=".flowers" data-position="left">
-        <p>We have nice picture here.</p>
+        <p>Try clicking on this photo. It should change its size.</p>
         <p><em>Seen enough?</em></p>
       </div>
       <div data-tour-content="text" data-position="top">
@@ -67,10 +75,18 @@
     </div>
     <script src="build/build.js"></script>
     <script>
-      var tour = require('tour');
+      var tour = require('tour')();
       document.querySelector('.start').addEventListener('click', function() {
-        tour().play();
+        tour.play();
       });
+      document.querySelector('.flowers').addEventListener('click', function(e) {
+        tour.react(300);
+        e.target.classList.toggle('big');
+      });
+      document.querySelector('.start-overlay').addEventListener('click', function() {
+        require('tour')().overlay().play();
+      });
+
     </script>
   </body>
 </html>
