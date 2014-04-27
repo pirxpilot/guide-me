@@ -134,14 +134,17 @@ Tour.prototype.react = function(delay) {
   if (!this.popover) {
     return;
   }
+  if (this.popover.classes.has('tour-reacted')) {
+    return;
+  }
+
   if (typeof delay !== 'number') {
     delay = step.delay;
   }
 
   var popover = this.popover.hide();
-  popover.classname += ' tour-reacted';
-  popover.classes.add('tour-reacted');
   setTimeout(function() {
     popover.show(step.refEl);
+    popover.classes.add('tour-reacted');
   }, delay);
 };
