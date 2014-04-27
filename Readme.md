@@ -73,11 +73,25 @@ Default position of step popover is `bottom`. It can be changed by specifying `d
 </span>
 ```
 
-### Tour.react()
+Steps can optionally specify 'data-delay' (in millis). The sequence of events is as follows:
 
-Temporarily hides and redisplays the active step. Can be used to adjust the tour popover whenever
-user action changes the screen layout.
+- previous step is hidden - `hide` event is dispatched
+- `next` event is dispatched
+- tour waits for `delay` milliseconds - by `default` delay is 0
+- next step is displayed
+- `show` event is dispatched
 
+```html
+<span data-tour-content="#abc" data-delay="250">
+  Tour will wait 250ms before displaying this step.
+</span>
+```
+
+### Tour.react(delay)
+
+Temporarily hides and redisplays the active step after a delay. Can be used to adjust the tour
+popover whenever user action changes the screen layout. If `delay` parameter is not specified, the
+value of `data- delay` for the active step is used.
 
 ### Tour.hideStep()
 

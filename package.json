@@ -1,6 +1,6 @@
 {
   "name": "code42day-tour",
-  "version": "0.6.2",
+  "version": "0.6.3",
   "description": "Data driven feature tour",
   "main": "index.js",
   "scripts": {
