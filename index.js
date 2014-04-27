@@ -29,6 +29,7 @@ function steps() {
 function createPopover(self, step) {
   self.popover = new Popover(step.contentEl.cloneNode(true));
   self.popover.classname += ' tour-popover';
+  self.updateNext();
   self.popover
     .cancel('Close')
     .ok('Next')
@@ -45,11 +46,13 @@ function createPopover(self, step) {
         self._overlay.hide();
       }
       self.hideStep();
+      ++self.current;
       self.emit('end');
     })
     .on('ok', function() {
       self.markStep(false);
-      setTimeout(self.showStep.bind(self, ++self.current), 0);
+      ++self.current;
+      setTimeout(self.showStep.bind(self), 0);
     })
     .position(step.position)
     .show(step.refEl);
@@ -69,19 +72,22 @@ Tour.prototype.overlay = function(options) {
   return this;
 };
 
-Tour.prototype.play = function() {
+Tour.prototype.play = function(index) {
   var self = this;
 
   self.emit('begin');
   if (self._overlay) {
     self._overlay.show();
   }
-  self.showStep(self.current);
+  if (typeof index === 'number') {
+    self.current = index;
+  }
+  self.showStep();
 };
 
 // hides next button for last step
-Tour.prototype.updateNext = function(index) {
-  classes(q('.ok', this.popover.el)).toggle('hidden', index + 1 >= this.steps.length);
+Tour.prototype.updateNext = function() {
+  classes(q('.ok', this.popover.el)).toggle('hidden', this.current + 1 >= this.steps.length);
 };
 
 // marks element associated with active step
@@ -99,8 +105,11 @@ Tour.prototype.hideStep = function() {
   }
 };
 
-Tour.prototype.showStep = function(index) {
-  var step = this.steps[index];
+Tour.prototype.showStep = function() {
+  var step;
+
+  this.current %= this.steps.length;
+  step = this.steps[this.current];
 
   if (!step) {
     return;
@@ -110,7 +119,6 @@ Tour.prototype.showStep = function(index) {
   this.hideStep();
 
   createPopover(this, step);
-  this.updateNext(index);
 };
 
 // called when user acted upon a suggestion in a Tour step
