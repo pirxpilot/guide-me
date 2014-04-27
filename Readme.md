@@ -88,6 +88,14 @@ Hidess active tour step.
 
 Shows active tour step.
 
+## Events
+
+- `begin` - before the tour start
+- `end` - after the tour ends
+- `next(index)` - when next step is about to be displayed
+- `show(index)` - when step popup is displayed
+- `hide(index)` - when step popup is hidden
+
 ## Styling
 
 Tour specific CSS can be used to style tours popovers and to mark the active steps.

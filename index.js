@@ -52,7 +52,7 @@ function createPopover(self, step) {
     })
     .on('ok', function() {
       self.markStep(false);
-      ++self.current;
+      self.emit('next', ++self.current);
       setTimeout(self.showStep.bind(self), 0);
     })
     .position(step.position)
