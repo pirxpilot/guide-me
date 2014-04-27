@@ -26,7 +26,12 @@
         display: block;
         clear: both;
         margin: 3em auto;
+        transition: all .3s ease-in-out;
         width: 288px;
+      }
+
+      .flowers.big {
+        width: 100px;
       }
 
       .flowers.tour-active-step {
@@ -61,7 +66,7 @@
     <div class='hidden'>
       <span data-tour-content="button">This is how we start the tour.</span>
       <div data-tour-content=".flowers" data-position="left">
-        <p>We have nice picture here.</p>
+        <p>Try clicking on this photo. It should change its size.</p>
         <p><em>Seen enough?</em></p>
       </div>
       <div data-tour-content="text" data-position="top">
@@ -70,12 +75,16 @@
     </div>
     <script src="build/build.js"></script>
     <script>
-      var tour = require('tour');
+      var tour = require('tour')();
       document.querySelector('.start').addEventListener('click', function() {
-        tour().play();
+        tour.play(0);
+      });
+      document.querySelector('.flowers').addEventListener('click', function(e) {
+        tour.react(300);
+        e.target.classList.toggle('big');
       });
       document.querySelector('.start-overlay').addEventListener('click', function() {
-        tour().overlay().play();
+        require('tour')().overlay().play();
       });
 
     </script>

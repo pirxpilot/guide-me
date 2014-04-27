@@ -25,6 +25,36 @@ function steps() {
   });
 }
 
+
+function createPopover(self, step) {
+  self.popover = new Popover(step.contentEl.cloneNode(true));
+  self.popover.classname += ' tour-popover';
+  self.popover
+    .cancel('Close')
+    .ok('Next')
+    .focus('ok')
+    .on('show', function() {
+      self.emit('show', self.current);
+    })
+    .on('hide', function() {
+      self.emit('hide', self.current);
+    })
+    .on('cancel', function() {
+      self.markStep(false);
+      if (self._overlay) {
+        self._overlay.hide();
+      }
+      self.hideStep();
+      self.emit('end');
+    })
+    .on('ok', function() {
+      self.markStep(false);
+      setTimeout(self.showStep.bind(self, ++self.current), 0);
+    })
+    .position(step.position)
+    .show(step.refEl);
+}
+
 function Tour() {
   if (!(this instanceof Tour)) return new Tour();
   this.steps = steps();
@@ -43,31 +73,6 @@ Tour.prototype.play = function() {
   var self = this;
 
   self.emit('begin');
-  if (!self.popover) {
-    self.popover = new Popover('');
-    self.popover.classname += ' tour-popover';
-    self.popover
-      .cancel('Close')
-      .ok('Next')
-      .focus('ok')
-      .on('show', function() {
-        self.emit('show', self.current);
-      })
-      .on('hide', function() {
-        self.emit('hide', self.current);
-      })
-      .on('cancel', function() {
-        self.markStep(false);
-        if (self._overlay) {
-          self._overlay.hide();
-        }
-        self.emit('end');
-      })
-      .on('ok', function() {
-        self.markStep(false);
-        setTimeout(self.showStep.bind(self, ++self.current), 0);
-      });
-  }
   if (self._overlay) {
     self._overlay.show();
   }
@@ -87,6 +92,13 @@ Tour.prototype.markStep = function(on) {
   }
 };
 
+Tour.prototype.hideStep = function() {
+  if (this.popover) {
+    this.popover.hide();
+    this.popover = undefined;
+  }
+};
+
 Tour.prototype.showStep = function(index) {
   var step = this.steps[index];
 
@@ -94,10 +106,29 @@ Tour.prototype.showStep = function(index) {
     return;
   }
   this.markStep(true);
+
+  this.hideStep();
+
+  createPopover(this, step);
   this.updateNext(index);
-  this.popover
-    .confirmation('')
-    .confirmation(step.contentEl.cloneNode(true))
-    .position(step.position)
-    .show(step.refEl);
+};
+
+// called when user acted upon a suggestion in a Tour step
+Tour.prototype.react = function(delay) {
+  var step = this.steps[this.current];
+
+  if (!step) {
+    return;
+  }
+  if (!this.popover) {
+    return;
+  }
+  if (typeof delay !== 'number') {
+    delay = 100;
+  }
+
+  var popover = this.popover.hide();
+  setTimeout(function() {
+    popover.show(step.refEl);
+  }, delay);
 };
