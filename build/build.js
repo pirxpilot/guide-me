@@ -755,13 +755,33 @@ function match(el, selector) {\n\
 }\n\
 //@ sourceURL=component-matches-selector/index.js"
 ));
+require.register("discore-closest/index.js", Function("exports, require, module",
+"var matches = require('matches-selector')\n\
+\n\
+module.exports = function (element, selector, checkYoSelf, root) {\n\
+  element = checkYoSelf ? {parentNode: element} : element\n\
+\n\
+  root = root || document\n\
+\n\
+  // Make sure `element !== document` and `element != null`\n\
+  // otherwise we get an illegal invocation\n\
+  while ((element = element.parentNode) && element !== document) {\n\
+    if (matches(element, selector))\n\
+      return element\n\
+    // After `matches` on the edge case that\n\
+    // the selector matches the root\n\
+    // (when the root is not the document)\n\
+    if (element === root)\n\
+      return  \n\
+  }\n\
+}//@ sourceURL=discore-closest/index.js"
+));
 require.register("component-delegate/index.js", Function("exports, require, module",
-"\n\
-/**\n\
+"/**\n\
  * Module dependencies.\n\
  */\n\
 \n\
-var matches = require('matches-selector')\n\
+var closest = require('closest')\n\
   , event = require('event');\n\
 \n\
 /**\n\
@@ -780,9 +800,10 @@ var matches = require('matches-selector')\n\
 \n\
 exports.bind = function(el, selector, type, fn, capture){\n\
   return event.bind(el, type, function(e){\n\
-    if (matches(e.target, selector)) fn(e);\n\
+    var target = e.target || e.srcElement;\n\
+    e.delegateTarget = closest(target, selector, true, el);\n\
+    if (e.delegateTarget) fn.call(el, e);\n\
   }, capture);\n\
-  return callback;\n\
 };\n\
 \n\
 /**\n\
@@ -3465,878 +3486,6 @@ ConfirmationPopover.prototype.show = function(el, fn){\n\
 };\n\
 //@ sourceURL=component-confirmation-popover/index.js"
 ));
-require.register("component-sort/index.js", Function("exports, require, module",
-"\n\
-/**\n\
- * Expose `sort`.\n\
- */\n\
-\n\
-exports = module.exports = sort;\n\
-\n\
-/**\n\
- * Sort `el`'s children with the given `fn(a, b)`.\n\
- *\n\
- * @param {Element} el\n\
- * @param {Function} fn\n\
- * @api public\n\
- */\n\
-\n\
-function sort(el, fn) {\n\
-  var arr = [].slice.call(el.children).sort(fn);\n\
-  var frag = document.createDocumentFragment();\n\
-  for (var i = 0; i < arr.length; i++) {\n\
-    frag.appendChild(arr[i]);\n\
-  }\n\
-  el.appendChild(frag);\n\
-};\n\
-\n\
-/**\n\
- * Sort descending.\n\
- *\n\
- * @param {Element} el\n\
- * @param {Function} fn\n\
- * @api public\n\
- */\n\
-\n\
-exports.desc = function(el, fn){\n\
-  sort(el, function(a, b){\n\
-    return ~fn(a, b) + 1;\n\
-  });\n\
-};\n\
-\n\
-/**\n\
- * Sort ascending.\n\
- */\n\
-\n\
-exports.asc = sort;\n\
-//@ sourceURL=component-sort/index.js"
-));
-require.register("component-value/index.js", Function("exports, require, module",
-"\n\
-/**\n\
- * Module dependencies.\n\
- */\n\
-\n\
-var typeOf = require('type');\n\
-\n\
-/**\n\
- * Set or get `el`'s' value.\n\
- *\n\
- * @param {Element} el\n\
- * @param {Mixed} val\n\
- * @return {Mixed}\n\
- * @api public\n\
- */\n\
-\n\
-module.exports = function(el, val){\n\
-  if (2 == arguments.length) return set(el, val);\n\
-  return get(el);\n\
-};\n\
-\n\
-/**\n\
- * Get `el`'s value.\n\
- */\n\
-\n\
-function get(el) {\n\
-  switch (type(el)) {\n\
-    case 'checkbox':\n\
-    case 'radio':\n\
-      if (el.checked) {\n\
-        var attr = el.getAttribute('value');\n\
-        return null == attr ? true : attr;\n\
-      } else {\n\
-        return false;\n\
-      }\n\
-    case 'radiogroup':\n\
-      for (var i = 0, radio; radio = el[i]; i++) {\n\
-        if (radio.checked) return radio.value;\n\
-      }\n\
-      break;\n\
-    case 'select':\n\
-      for (var i = 0, option; option = el.options[i]; i++) {\n\
-        if (option.selected) return option.value;\n\
-      }\n\
-      break;\n\
-    default:\n\
-      return el.value;\n\
-  }\n\
-}\n\
-\n\
-/**\n\
- * Set `el`'s value.\n\
- */\n\
-\n\
-function set(el, val) {\n\
-  switch (type(el)) {\n\
-    case 'checkbox':\n\
-    case 'radio':\n\
-      if (val) {\n\
-        el.checked = true;\n\
-      } else {\n\
-        el.checked = false;\n\
-      }\n\
-      break;\n\
-    case 'radiogroup':\n\
-      for (var i = 0, radio; radio = el[i]; i++) {\n\
-        radio.checked = radio.value === val;\n\
-      }\n\
-      break;\n\
-    case 'select':\n\
-      for (var i = 0, option; option = el.options[i]; i++) {\n\
-        option.selected = option.value === val;\n\
-      }\n\
-      break;\n\
-    default:\n\
-      el.value = val;\n\
-  }\n\
-}\n\
-\n\
-/**\n\
- * Element type.\n\
- */\n\
-\n\
-function type(el) {\n\
-  var group = 'array' == typeOf(el) || 'object' == typeOf(el);\n\
-  if (group) el = el[0];\n\
-  var name = el.nodeName.toLowerCase();\n\
-  var type = el.getAttribute('type');\n\
-\n\
-  if (group && type && 'radio' == type.toLowerCase()) return 'radiogroup';\n\
-  if ('input' == name && type && 'checkbox' == type.toLowerCase()) return 'checkbox';\n\
-  if ('input' == name && type && 'radio' == type.toLowerCase()) return 'radio';\n\
-  if ('select' == name) return 'select';\n\
-  return name;\n\
-}\n\
-//@ sourceURL=component-value/index.js"
-));
-require.register("component-dom/index.js", Function("exports, require, module",
-"/**\n\
- * Module dependencies.\n\
- */\n\
-\n\
-var delegate = require('delegate');\n\
-var classes = require('classes');\n\
-var indexof = require('indexof');\n\
-var domify = require('domify');\n\
-var events = require('event');\n\
-var value = require('value');\n\
-var query = require('query');\n\
-var type = require('type');\n\
-var css = require('css');\n\
-\n\
-/**\n\
- * Attributes supported.\n\
- */\n\
-\n\
-var attrs = [\n\
-  'id',\n\
-  'src',\n\
-  'rel',\n\
-  'cols',\n\
-  'rows',\n\
-  'name',\n\
-  'href',\n\
-  'title',\n\
-  'style',\n\
-  'width',\n\
-  'height',\n\
-  'tabindex',\n\
-  'placeholder'\n\
-];\n\
-\n\
-/**\n\
- * Expose `dom()`.\n\
- */\n\
-\n\
-exports = module.exports = dom;\n\
-\n\
-/**\n\
- * Expose supported attrs.\n\
- */\n\
-\n\
-exports.attrs = attrs;\n\
-\n\
-/**\n\
- * Return a dom `List` for the given\n\
- * `html`, selector, or element.\n\
- *\n\
- * @param {String|Element|List}\n\
- * @return {List}\n\
- * @api public\n\
- */\n\
-\n\
-function dom(selector, context) {\n\
-  // array\n\
-  if (Array.isArray(selector)) {\n\
-    return new List(selector);\n\
-  }\n\
-\n\
-  // List\n\
-  if (selector instanceof List) {\n\
-    return selector;\n\
-  }\n\
-\n\
-  // node\n\
-  if (selector.nodeName) {\n\
-    return new List([selector]);\n\
-  }\n\
-\n\
-  if ('string' != typeof selector) {\n\
-    throw new TypeError('invalid selector');\n\
-  }\n\
-\n\
-  // html\n\
-  if ('<' == selector.charAt(0)) {\n\
-    return new List([domify(selector)], selector);\n\
-  }\n\
-\n\
-  // selector\n\
-  var ctx = context\n\
-    ? (context.els ? context.els[0] : context)\n\
-    : document;\n\
-\n\
-  return new List(query.all(selector, ctx), selector);\n\
-}\n\
-\n\
-/**\n\
- * Expose `List` constructor.\n\
- */\n\
-\n\
-exports.List = List;\n\
-\n\
-/**\n\
- * Initialize a new `List` with the\n\
- * given array-ish of `els` and `selector`\n\
- * string.\n\
- *\n\
- * @param {Mixed} els\n\
- * @param {String} selector\n\
- * @api private\n\
- */\n\
-\n\
-function List(els, selector) {\n\
-  this.els = els || [];\n\
-  this.selector = selector;\n\
-}\n\
-\n\
-/**\n\
- * Enumerable iterator.\n\
- */\n\
-\n\
-List.prototype.__iterate__ = function(){\n\
-  var self = this;\n\
-  return {\n\
-    length: function(){ return self.els.length },\n\
-    get: function(i){ return new List([self.els[i]]) }\n\
-  }\n\
-};\n\
-\n\
-/**\n\
- * Remove elements from the DOM.\n\
- *\n\
- * @api public\n\
- */\n\
-\n\
-List.prototype.remove = function(){\n\
-  for (var i = 0; i < this.els.length; i++) {\n\
-    var el = this.els[i];\n\
-    var parent = el.parentNode;\n\
-    if (parent) parent.removeChild(el);\n\
-  }\n\
-};\n\
-\n\
-/**\n\
- * Set attribute `name` to `val`, or get attr `name`.\n\
- *\n\
- * @param {String} name\n\
- * @param {String} [val]\n\
- * @return {String|List} self\n\
- * @api public\n\
- */\n\
-\n\
-List.prototype.attr = function(name, val){\n\
-  // get\n\
-  if (1 == arguments.length) {\n\
-    return this.els[0] && this.els[0].getAttribute(name);\n\
-  }\n\
-\n\
-  // remove\n\
-  if (null == val) {\n\
-    return this.removeAttr(name);\n\
-  }\n\
-\n\
-  // set\n\
-  return this.forEach(function(el){\n\
-    el.setAttribute(name, val);\n\
-  });\n\
-};\n\
-\n\
-/**\n\
- * Remove attribute `name`.\n\
- *\n\
- * @param {String} name\n\
- * @return {List} self\n\
- * @api public\n\
- */\n\
-\n\
-List.prototype.removeAttr = function(name){\n\
-  return this.forEach(function(el){\n\
-    el.removeAttribute(name);\n\
-  });\n\
-};\n\
-\n\
-/**\n\
- * Set property `name` to `val`, or get property `name`.\n\
- *\n\
- * @param {String} name\n\
- * @param {String} [val]\n\
- * @return {Object|List} self\n\
- * @api public\n\
- */\n\
-\n\
-List.prototype.prop = function(name, val){\n\
-  if (1 == arguments.length) {\n\
-    return this.els[0] && this.els[0][name];\n\
-  }\n\
-\n\
-  return this.forEach(function(el){\n\
-    el[name] = val;\n\
-  });\n\
-};\n\
-\n\
-/**\n\
- * Get the first element's value or set selected\n\
- * element values to `val`.\n\
- *\n\
- * @param {Mixed} [val]\n\
- * @return {Mixed}\n\
- * @api public\n\
- */\n\
-\n\
-List.prototype.val =\n\
-List.prototype.value = function(val){\n\
-  if (0 == arguments.length) {\n\
-    return this.els[0]\n\
-      ? value(this.els[0])\n\
-      : undefined;\n\
-  }\n\
-\n\
-  return this.forEach(function(el){\n\
-    value(el, val);\n\
-  });\n\
-};\n\
-\n\
-/**\n\
- * Return a cloned `List` with all elements cloned.\n\
- *\n\
- * @return {List}\n\
- * @api public\n\
- */\n\
-\n\
-List.prototype.clone = function(){\n\
-  var arr = [];\n\
-  for (var i = 0, len = this.els.length; i < len; ++i) {\n\
-    arr.push(this.els[i].cloneNode(true));\n\
-  }\n\
-  return new List(arr);\n\
-};\n\
-\n\
-/**\n\
- * Prepend `val`.\n\
- *\n\
- * @param {String|Element|List} val\n\
- * @return {List} new list\n\
- * @api public\n\
- */\n\
-\n\
-List.prototype.prepend = function(val){\n\
-  var el = this.els[0];\n\
-  if (!el) return this;\n\
-  val = dom(val);\n\
-  for (var i = 0; i < val.els.length; ++i) {\n\
-    if (el.children.length) {\n\
-      el.insertBefore(val.els[i], el.firstChild);\n\
-    } else {\n\
-      el.appendChild(val.els[i]);\n\
-    }\n\
-  }\n\
-  return val;\n\
-};\n\
-\n\
-/**\n\
- * Append `val`.\n\
- *\n\
- * @param {String|Element|List} val\n\
- * @return {List} new list\n\
- * @api public\n\
- */\n\
-\n\
-List.prototype.append = function(val){\n\
-  var el = this.els[0];\n\
-  if (!el) return this;\n\
-  val = dom(val);\n\
-  for (var i = 0; i < val.els.length; ++i) {\n\
-    el.appendChild(val.els[i]);\n\
-  }\n\
-  return val;\n\
-};\n\
-\n\
-/**\n\
- * Append self's `el` to `val`\n\
- *\n\
- * @param {String|Element|List} val\n\
- * @return {List} self\n\
- * @api public\n\
- */\n\
-\n\
-List.prototype.appendTo = function(val){\n\
-  dom(val).append(this);\n\
-  return this;\n\
-};\n\
-\n\
-/**\n\
- * Return a `List` containing the element at `i`.\n\
- *\n\
- * @param {Number} i\n\
- * @return {List}\n\
- * @api public\n\
- */\n\
-\n\
-List.prototype.at = function(i){\n\
-  return new List([this.els[i]], this.selector);\n\
-};\n\
-\n\
-/**\n\
- * Return a `List` containing the first element.\n\
- *\n\
- * @param {Number} i\n\
- * @return {List}\n\
- * @api public\n\
- */\n\
-\n\
-List.prototype.first = function(){\n\
-  return new List([this.els[0]], this.selector);\n\
-};\n\
-\n\
-/**\n\
- * Return a `List` containing the last element.\n\
- *\n\
- * @param {Number} i\n\
- * @return {List}\n\
- * @api public\n\
- */\n\
-\n\
-List.prototype.last = function(){\n\
-  return new List([this.els[this.els.length - 1]], this.selector);\n\
-};\n\
-\n\
-/**\n\
- * Return an `Element` at `i`.\n\
- *\n\
- * @param {Number} i\n\
- * @return {Element}\n\
- * @api public\n\
- */\n\
-\n\
-List.prototype.get = function(i){\n\
-  return this.els[i || 0];\n\
-};\n\
-\n\
-/**\n\
- * Return list length.\n\
- *\n\
- * @return {Number}\n\
- * @api public\n\
- */\n\
-\n\
-List.prototype.length = function(){\n\
-  return this.els.length;\n\
-};\n\
-\n\
-/**\n\
- * Return element text.\n\
- *\n\
- * @param {String} str\n\
- * @return {String|List}\n\
- * @api public\n\
- */\n\
-\n\
-List.prototype.text = function(str){\n\
-  // TODO: real impl\n\
-  if (1 == arguments.length) {\n\
-    this.forEach(function(el){\n\
-      el.textContent = str;\n\
-    });\n\
-    return this;\n\
-  }\n\
-\n\
-  var str = '';\n\
-  for (var i = 0; i < this.els.length; ++i) {\n\
-    str += this.els[i].textContent;\n\
-  }\n\
-  return str;\n\
-};\n\
-\n\
-/**\n\
- * Return element html.\n\
- *\n\
- * @return {String} html\n\
- * @api public\n\
- */\n\
-\n\
-List.prototype.html = function(html){\n\
-  if (1 == arguments.length) {\n\
-    this.forEach(function(el){\n\
-      el.innerHTML = html;\n\
-    });\n\
-  }\n\
-  // TODO: real impl\n\
-  return this.els[0] && this.els[0].innerHTML;\n\
-};\n\
-\n\
-/**\n\
- * Bind to `event` and invoke `fn(e)`. When\n\
- * a `selector` is given then events are delegated.\n\
- *\n\
- * @param {String} event\n\
- * @param {String} [selector]\n\
- * @param {Function} fn\n\
- * @param {Boolean} capture\n\
- * @return {List}\n\
- * @api public\n\
- */\n\
-\n\
-List.prototype.on = function(event, selector, fn, capture){\n\
-  if ('string' == typeof selector) {\n\
-    for (var i = 0; i < this.els.length; ++i) {\n\
-      fn._delegate = delegate.bind(this.els[i], selector, event, fn, capture);\n\
-    }\n\
-    return this;\n\
-  }\n\
-\n\
-  capture = fn;\n\
-  fn = selector;\n\
-\n\
-  for (var i = 0; i < this.els.length; ++i) {\n\
-    events.bind(this.els[i], event, fn, capture);\n\
-  }\n\
-\n\
-  return this;\n\
-};\n\
-\n\
-/**\n\
- * Unbind to `event` and invoke `fn(e)`. When\n\
- * a `selector` is given then delegated event\n\
- * handlers are unbound.\n\
- *\n\
- * @param {String} event\n\
- * @param {String} [selector]\n\
- * @param {Function} fn\n\
- * @param {Boolean} capture\n\
- * @return {List}\n\
- * @api public\n\
- */\n\
-\n\
-List.prototype.off = function(event, selector, fn, capture){\n\
-  if ('string' == typeof selector) {\n\
-    for (var i = 0; i < this.els.length; ++i) {\n\
-      // TODO: add selector support back\n\
-      delegate.unbind(this.els[i], event, fn._delegate, capture);\n\
-    }\n\
-    return this;\n\
-  }\n\
-\n\
-  capture = fn;\n\
-  fn = selector;\n\
-\n\
-  for (var i = 0; i < this.els.length; ++i) {\n\
-    events.unbind(this.els[i], event, fn, capture);\n\
-  }\n\
-  return this;\n\
-};\n\
-\n\
-/**\n\
- * Iterate elements and invoke `fn(list, i)`.\n\
- *\n\
- * @param {Function} fn\n\
- * @return {List} self\n\
- * @api public\n\
- */\n\
-\n\
-List.prototype.each = function(fn){\n\
-  for (var i = 0; i < this.els.length; ++i) {\n\
-    fn(new List([this.els[i]], this.selector), i);\n\
-  }\n\
-  return this;\n\
-};\n\
-\n\
-/**\n\
- * Iterate elements and invoke `fn(el, i)`.\n\
- *\n\
- * @param {Function} fn\n\
- * @return {List} self\n\
- * @api public\n\
- */\n\
-\n\
-List.prototype.forEach = function(fn){\n\
-  for (var i = 0; i < this.els.length; ++i) {\n\
-    fn(this.els[i], i);\n\
-  }\n\
-  return this;\n\
-};\n\
-\n\
-/**\n\
- * Map elements invoking `fn(list, i)`.\n\
- *\n\
- * @param {Function} fn\n\
- * @return {Array}\n\
- * @api public\n\
- */\n\
-\n\
-List.prototype.map = function(fn){\n\
-  var arr = [];\n\
-  for (var i = 0; i < this.els.length; ++i) {\n\
-    arr.push(fn(new List([this.els[i]], this.selector), i));\n\
-  }\n\
-  return arr;\n\
-};\n\
-\n\
-/**\n\
- * Filter elements invoking `fn(list, i)`, returning\n\
- * a new `List` of elements when a truthy value is returned.\n\
- *\n\
- * @param {Function} fn\n\
- * @return {List}\n\
- * @api public\n\
- */\n\
-\n\
-List.prototype.select =\n\
-List.prototype.filter = function(fn){\n\
-  var el;\n\
-  var list = new List([], this.selector);\n\
-  for (var i = 0; i < this.els.length; ++i) {\n\
-    el = this.els[i];\n\
-    if (fn(new List([el], this.selector), i)) list.els.push(el);\n\
-  }\n\
-  return list;\n\
-};\n\
-\n\
-/**\n\
- * Filter elements invoking `fn(list, i)`, returning\n\
- * a new `List` of elements when a falsey value is returned.\n\
- *\n\
- * @param {Function} fn\n\
- * @return {List}\n\
- * @api public\n\
- */\n\
-\n\
-List.prototype.reject = function(fn){\n\
-  var el;\n\
-  var list = new List([], this.selector);\n\
-  for (var i = 0; i < this.els.length; ++i) {\n\
-    el = this.els[i];\n\
-    if (!fn(new List([el], this.selector), i)) list.els.push(el);\n\
-  }\n\
-  return list;\n\
-};\n\
-\n\
-/**\n\
- * Add the given class `name`.\n\
- *\n\
- * @param {String} name\n\
- * @return {List} self\n\
- * @api public\n\
- */\n\
-\n\
-List.prototype.addClass = function(name){\n\
-  var el;\n\
-  for (var i = 0; i < this.els.length; ++i) {\n\
-    el = this.els[i];\n\
-    el._classes = el._classes || classes(el);\n\
-    el._classes.add(name);\n\
-  }\n\
-  return this;\n\
-};\n\
-\n\
-/**\n\
- * Remove the given class `name`.\n\
- *\n\
- * @param {String|RegExp} name\n\
- * @return {List} self\n\
- * @api public\n\
- */\n\
-\n\
-List.prototype.removeClass = function(name){\n\
-  var el;\n\
-\n\
-  if ('regexp' == type(name)) {\n\
-    for (var i = 0; i < this.els.length; ++i) {\n\
-      el = this.els[i];\n\
-      el._classes = el._classes || classes(el);\n\
-      var arr = el._classes.array();\n\
-      for (var j = 0; j < arr.length; j++) {\n\
-        if (name.test(arr[j])) {\n\
-          el._classes.remove(arr[j]);\n\
-        }\n\
-      }\n\
-    }\n\
-    return this;\n\
-  }\n\
-\n\
-  for (var i = 0; i < this.els.length; ++i) {\n\
-    el = this.els[i];\n\
-    el._classes = el._classes || classes(el);\n\
-    el._classes.remove(name);\n\
-  }\n\
-\n\
-  return this;\n\
-};\n\
-\n\
-/**\n\
- * Toggle the given class `name`,\n\
- * optionally a `bool` may be given\n\
- * to indicate that the class should\n\
- * be added when truthy.\n\
- *\n\
- * @param {String} name\n\
- * @param {Boolean} bool\n\
- * @return {List} self\n\
- * @api public\n\
- */\n\
-\n\
-List.prototype.toggleClass = function(name, bool){\n\
-  var el;\n\
-  var fn = 'toggle';\n\
-\n\
-  // toggle with boolean\n\
-  if (2 == arguments.length) {\n\
-    fn = bool ? 'add' : 'remove';\n\
-  }\n\
-\n\
-  for (var i = 0; i < this.els.length; ++i) {\n\
-    el = this.els[i];\n\
-    el._classes = el._classes || classes(el);\n\
-    el._classes[fn](name);\n\
-  }\n\
-\n\
-  return this;\n\
-};\n\
-\n\
-/**\n\
- * Check if the given class `name` is present.\n\
- *\n\
- * @param {String} name\n\
- * @return {Boolean}\n\
- * @api public\n\
- */\n\
-\n\
-List.prototype.hasClass = function(name){\n\
-  var el;\n\
-  for (var i = 0; i < this.els.length; ++i) {\n\
-    el = this.els[i];\n\
-    el._classes = el._classes || classes(el);\n\
-    if (el._classes.has(name)) return true;\n\
-  }\n\
-  return false;\n\
-};\n\
-\n\
-/**\n\
- * Set CSS `prop` to `val` or get `prop` value.\n\
- * Also accepts an object (`prop`: `val`)\n\
- *\n\
- * @param {String} prop\n\
- * @param {Mixed} val\n\
- * @return {List|String}\n\
- * @api public\n\
- */\n\
-\n\
-List.prototype.css = function(prop, val){\n\
-  if (2 == arguments.length) {\n\
-    var obj = {};\n\
-    obj[prop] = val;\n\
-    return this.setStyle(obj);\n\
-  }\n\
-\n\
-  if ('object' == type(prop)) {\n\
-    return this.setStyle(prop);\n\
-  }\n\
-\n\
-  return this.getStyle(prop);\n\
-};\n\
-\n\
-/**\n\
- * Set CSS `props`.\n\
- *\n\
- * @param {Object} props\n\
- * @return {List} self\n\
- * @api private\n\
- */\n\
-\n\
-List.prototype.setStyle = function(props){\n\
-  for (var i = 0; i < this.els.length; ++i) {\n\
-    css(this.els[i], props);\n\
-  }\n\
-  return this;\n\
-};\n\
-\n\
-/**\n\
- * Get CSS `prop` value.\n\
- *\n\
- * @param {String} prop\n\
- * @return {String}\n\
- * @api private\n\
- */\n\
-\n\
-List.prototype.getStyle = function(prop){\n\
-  var el = this.els[0];\n\
-  if (el) return el.style[prop];\n\
-};\n\
-\n\
-/**\n\
- * Find children matching the given `selector`.\n\
- *\n\
- * @param {String} selector\n\
- * @return {List}\n\
- * @api public\n\
- */\n\
-\n\
-List.prototype.find = function(selector){\n\
-  return dom(selector, this);\n\
-};\n\
-\n\
-/**\n\
- * Empty the dom list\n\
- *\n\
- * @return self\n\
- * @api public\n\
- */\n\
-\n\
-List.prototype.empty = function(){\n\
-  var elem, el;\n\
-\n\
-  for (var i = 0; i < this.els.length; ++i) {\n\
-    el = this.els[i];\n\
-    while (el.firstChild) {\n\
-      el.removeChild(el.firstChild);\n\
-    }\n\
-  }\n\
-\n\
-  return this;\n\
-}\n\
-\n\
-/**\n\
- * Attribute accessors.\n\
- */\n\
-\n\
-attrs.forEach(function(name){\n\
-  List.prototype[name] = function(val){\n\
-    if (0 == arguments.length) return this.attr(name);\n\
-    return this.attr(name, val);\n\
-  };\n\
-});\n\
-\n\
-//@ sourceURL=component-dom/index.js"
-));
 require.register("component-overlay/index.js", Function("exports, require, module",
 "\n\
 /**\n\
@@ -4344,8 +3493,10 @@ require.register("component-overlay/index.js", Function("exports, require, modul
  */\n\
 \n\
 var Emitter = require('emitter');\n\
-var tmpl = require('./template');\n\
-var o = require('dom');\n\
+var tmpl = require('./template.html');\n\
+var domify = require('domify');\n\
+var event = require('event');\n\
+var classes = require('classes');\n\
 \n\
 /**\n\
  * Expose `overlay()`.\n\
@@ -4376,7 +3527,7 @@ function overlay(options){\n\
   }\n\
 \n\
   return new Overlay(options);\n\
-};\n\
+}\n\
 \n\
 /**\n\
  * Initialize a new `Overlay`.\n\
@@ -4388,11 +3539,14 @@ function overlay(options){\n\
 function Overlay(options) {\n\
   Emitter.call(this);\n\
   options = options || {};\n\
-  this.target = options.target || 'body';\n\
+  this.target = options.target || document.body;\n\
   this.closable = options.closable;\n\
-  this.el = o(tmpl);\n\
-  this.el.appendTo(this.target);\n\
-  if (this.closable) this.el.on('click', this.hide.bind(this));\n\
+  this.el = domify(tmpl);\n\
+  this.target.appendChild(this.el);\n\
+  if (this.closable) {\n\
+\tevent.bind(this.el, 'click', this.hide.bind(this));\n\
+    classes(this.el).add('closable');\n\
+  }\n\
 }\n\
 \n\
 /**\n\
@@ -4412,7 +3566,7 @@ Emitter(Overlay.prototype);\n\
 \n\
 Overlay.prototype.show = function(){\n\
   this.emit('show');\n\
-  this.el.removeClass('hide');\n\
+  classes(this.el).remove('hidden');\n\
   return this;\n\
 };\n\
 \n\
@@ -4442,18 +3596,14 @@ Overlay.prototype.hide = function(){\n\
 Overlay.prototype.remove = function(){\n\
   var self = this;\n\
   this.emit('close');\n\
-  this.el.addClass('hide');\n\
+  classes(this.el).add('hidden');\n\
   setTimeout(function(){\n\
-    self.el.remove();\n\
+    self.target.removeChild(self.el);\n\
   }, 2000);\n\
   return this;\n\
 };\n\
 \n\
 //@ sourceURL=component-overlay/index.js"
-));
-require.register("component-overlay/template.js", Function("exports, require, module",
-"module.exports = '<div class=\"overlay hide\"></div>\\n\
-';//@ sourceURL=component-overlay/template.js"
 ));
 require.register("component-query/index.js", Function("exports, require, module",
 "function one(selector, el) {\n\
@@ -4493,17 +3643,55 @@ module.exports = Tour;\n\
 // parse HTML to create a list of steps - tour-id / tour-content need to match\n\
 function steps() {\n\
   return Array.prototype.map.call(q.all('[data-tour-content]'), function(el) {\n\
-    var id = ds(el, 'tourContent');\n\
+    var data = ds(el),\n\
+      id = data.get('tourContent');\n\
     return {\n\
       id: id,\n\
       contentEl: el,\n\
-      refEl: q('[data-tour-id=\"' + id + '\"]')\n\
+      position: data.get('position') || 'bottom',\n\
+      delay: data.get('delay') || 0,\n\
+      refEl: q('[data-tour-id=\"' + id + '\"]') || q(id)\n\
     };\n\
   })\n\
   .filter(function(step) {\n\
     // only consider steps for which referenceEl is found\n\
     return step.refEl;\n\
   });\n\
+}\n\
+\n\
+\n\
+function createPopover(step) {\n\
+  var self = this;\n\
+  self.popover = new Popover(step.contentEl.cloneNode(true));\n\
+  self.popover.classname += ' tour-popover';\n\
+  self.popover.classes.add('tour-popover');\n\
+  self.updateNext();\n\
+  self.popover\n\
+    .cancel('Close')\n\
+    .ok('Next')\n\
+    .focus('ok')\n\
+    .on('show', function() {\n\
+      self.emit('show', self.current);\n\
+    })\n\
+    .on('hide', function() {\n\
+      self.emit('hide', self.current);\n\
+    })\n\
+    .on('cancel', function() {\n\
+      self.markStep(false);\n\
+      if (self._overlay) {\n\
+        self._overlay.hide();\n\
+      }\n\
+      self.hideStep();\n\
+      ++self.current;\n\
+      self.emit('end');\n\
+    })\n\
+    .on('ok', function() {\n\
+      self.markStep(false);\n\
+      self.emit('next', ++self.current);\n\
+      setTimeout(self.showStep.bind(self), 0);\n\
+    })\n\
+    .position(step.position)\n\
+    .show(step.refEl);\n\
 }\n\
 \n\
 function Tour() {\n\
@@ -4514,55 +3702,84 @@ function Tour() {\n\
 \n\
 Emitter(Tour.prototype);\n\
 \n\
-Tour.prototype.play = function() {\n\
+Tour.prototype.overlay = function(options) {\n\
+  this._overlay = overlay(options);\n\
+  classes(this._overlay.el).add('tour-overlay');\n\
+  return this;\n\
+};\n\
+\n\
+Tour.prototype.play = function(index) {\n\
   var self = this;\n\
 \n\
   self.emit('begin');\n\
-  if (!self.popover) {\n\
-    self.popover = new Popover('');\n\
-    self.popover\n\
-      .cancel('Close')\n\
-      .ok('Next')\n\
-      .focus('ok')\n\
-      .on('show', function() {\n\
-        self.emit('show', self.current);\n\
-      })\n\
-      .on('hide', function() {\n\
-        self.emit('hide', self.current);\n\
-      })\n\
-      .on('cancel', function() {\n\
-        self.overlay.remove();\n\
-        self.overlay = null;\n\
-        self.emit('end');\n\
-      })\n\
-      .on('ok', function() {\n\
-        setTimeout(self.showStep.bind(self, ++self.current), 0);\n\
-      });\n\
+  if (self._overlay) {\n\
+    self._overlay.show();\n\
   }\n\
-  self.overlay = overlay();\n\
-  self.overlay.show();\n\
-  self.showStep(self.current);\n\
+  if (typeof index === 'number') {\n\
+    self.current = index;\n\
+  }\n\
+  self.showStep();\n\
 };\n\
 \n\
-Tour.prototype.updateNext = function(index) {\n\
-  classes(q('.ok', this.popover.el)).toggle('hidden', index + 1 >= this.steps.length);\n\
+// hides next button for last step\n\
+Tour.prototype.updateNext = function() {\n\
+  classes(q('.ok', this.popover.el)).toggle('hidden', this.current + 1 >= this.steps.length);\n\
 };\n\
 \n\
-Tour.prototype.showStep = function(index) {\n\
-  var step = this.steps[index];\n\
+// marks element associated with active step\n\
+Tour.prototype.markStep = function(on) {\n\
+  var step = this.steps[this.current];\n\
+  if (step) {\n\
+    classes(step.refEl).toggle('tour-active-step', on);\n\
+  }\n\
+};\n\
+\n\
+Tour.prototype.hideStep = function() {\n\
+  if (this.popover) {\n\
+    this.popover.hide();\n\
+    this.popover = undefined;\n\
+  }\n\
+};\n\
+\n\
+Tour.prototype.showStep = function() {\n\
+  var step;\n\
+\n\
+  this.current %= this.steps.length;\n\
+  step = this.steps[this.current];\n\
 \n\
   if (!step) {\n\
     return;\n\
   }\n\
-  this.updateNext(index);\n\
-  this.popover\n\
-    .confirmation('')\n\
-    .confirmation(step.contentEl.cloneNode(true))\n\
-    .show(step.refEl);\n\
+  this.markStep(true);\n\
+\n\
+  this.hideStep();\n\
+\n\
+  setTimeout(createPopover.bind(this, step), step.delay);\n\
+};\n\
+\n\
+// called when user acted upon a suggestion in a Tour step\n\
+Tour.prototype.react = function(delay) {\n\
+  var step = this.steps[this.current];\n\
+\n\
+  if (!step) {\n\
+    return;\n\
+  }\n\
+  if (!this.popover) {\n\
+    return;\n\
+  }\n\
+  if (typeof delay !== 'number') {\n\
+    delay = step.delay;\n\
+  }\n\
+\n\
+  var popover = this.popover.hide();\n\
+  popover.classname += ' tour-reacted';\n\
+  popover.classes.add('tour-reacted');\n\
+  setTimeout(function() {\n\
+    popover.show(step.refEl);\n\
+  }, delay);\n\
 };\n\
 //@ sourceURL=tour/index.js"
 ));
-
 
 
 
@@ -4609,8 +3826,10 @@ require.register("component-confirmation-popover/template.html", Function("expor
   </div>\\n\
 </div>';//@ sourceURL=component-confirmation-popover/template.html"
 ));
-
-
+require.register("component-overlay/template.html", Function("exports, require, module",
+"module.exports = '<div class=\"overlay hidden\"></div>\\n\
+';//@ sourceURL=component-overlay/template.html"
+));
 
 
 require.alias("code42day-dataset/index.js", "tour/deps/dataset/index.js");
@@ -4640,9 +3859,12 @@ require.alias("component-events/index.js", "component-tip/deps/events/index.js")
 require.alias("component-event/index.js", "component-events/deps/event/index.js");
 
 require.alias("component-delegate/index.js", "component-events/deps/delegate/index.js");
-require.alias("component-matches-selector/index.js", "component-delegate/deps/matches-selector/index.js");
+require.alias("discore-closest/index.js", "component-delegate/deps/closest/index.js");
+require.alias("discore-closest/index.js", "component-delegate/deps/closest/index.js");
+require.alias("component-matches-selector/index.js", "discore-closest/deps/matches-selector/index.js");
 require.alias("component-query/index.js", "component-matches-selector/deps/query/index.js");
 
+require.alias("discore-closest/index.js", "discore-closest/index.js");
 require.alias("component-event/index.js", "component-delegate/deps/event/index.js");
 
 require.alias("component-domify/index.js", "component-tip/deps/domify/index.js");
@@ -4690,63 +3912,15 @@ require.alias("component-inherit/index.js", "component-popover/deps/inherit/inde
 require.alias("component-query/index.js", "component-confirmation-popover/deps/query/index.js");
 
 require.alias("component-overlay/index.js", "tour/deps/overlay/index.js");
-require.alias("component-overlay/template.js", "tour/deps/overlay/template.js");
 require.alias("component-overlay/index.js", "overlay/index.js");
 require.alias("component-emitter/index.js", "component-overlay/deps/emitter/index.js");
 
-require.alias("component-dom/index.js", "component-overlay/deps/dom/index.js");
-require.alias("component-type/index.js", "component-dom/deps/type/index.js");
+require.alias("component-domify/index.js", "component-overlay/deps/domify/index.js");
 
-require.alias("component-event/index.js", "component-dom/deps/event/index.js");
+require.alias("component-event/index.js", "component-overlay/deps/event/index.js");
 
-require.alias("component-delegate/index.js", "component-dom/deps/delegate/index.js");
-require.alias("component-matches-selector/index.js", "component-delegate/deps/matches-selector/index.js");
-require.alias("component-query/index.js", "component-matches-selector/deps/query/index.js");
-
-require.alias("component-event/index.js", "component-delegate/deps/event/index.js");
-
-require.alias("component-indexof/index.js", "component-dom/deps/indexof/index.js");
-
-require.alias("component-domify/index.js", "component-dom/deps/domify/index.js");
-
-require.alias("component-classes/index.js", "component-dom/deps/classes/index.js");
+require.alias("component-classes/index.js", "component-overlay/deps/classes/index.js");
 require.alias("component-indexof/index.js", "component-classes/deps/indexof/index.js");
-
-require.alias("component-css/index.js", "component-dom/deps/css/index.js");
-require.alias("component-css/lib/css.js", "component-dom/deps/css/lib/css.js");
-require.alias("component-css/lib/prop.js", "component-dom/deps/css/lib/prop.js");
-require.alias("component-css/lib/swap.js", "component-dom/deps/css/lib/swap.js");
-require.alias("component-css/lib/style.js", "component-dom/deps/css/lib/style.js");
-require.alias("component-css/lib/hooks.js", "component-dom/deps/css/lib/hooks.js");
-require.alias("component-css/lib/styles.js", "component-dom/deps/css/lib/styles.js");
-require.alias("component-css/lib/vendor.js", "component-dom/deps/css/lib/vendor.js");
-require.alias("component-css/lib/support.js", "component-dom/deps/css/lib/support.js");
-require.alias("component-css/lib/computed.js", "component-dom/deps/css/lib/computed.js");
-require.alias("component-css/index.js", "component-dom/deps/css/index.js");
-require.alias("component-each/index.js", "component-css/deps/each/index.js");
-require.alias("component-to-function/index.js", "component-each/deps/to-function/index.js");
-require.alias("component-props/index.js", "component-to-function/deps/props/index.js");
-
-require.alias("component-type/index.js", "component-each/deps/type/index.js");
-
-require.alias("visionmedia-debug/index.js", "component-css/deps/debug/index.js");
-require.alias("visionmedia-debug/debug.js", "component-css/deps/debug/debug.js");
-
-require.alias("ianstormtaylor-to-camel-case/index.js", "component-css/deps/to-camel-case/index.js");
-require.alias("ianstormtaylor-to-space-case/index.js", "ianstormtaylor-to-camel-case/deps/to-space-case/index.js");
-require.alias("ianstormtaylor-to-no-case/index.js", "ianstormtaylor-to-space-case/deps/to-no-case/index.js");
-
-require.alias("component-within-document/index.js", "component-css/deps/within-document/index.js");
-
-require.alias("component-css/index.js", "component-css/index.js");
-require.alias("component-sort/index.js", "component-dom/deps/sort/index.js");
-
-require.alias("component-value/index.js", "component-dom/deps/value/index.js");
-require.alias("component-value/index.js", "component-dom/deps/value/index.js");
-require.alias("component-type/index.js", "component-value/deps/type/index.js");
-
-require.alias("component-value/index.js", "component-value/index.js");
-require.alias("component-query/index.js", "component-dom/deps/query/index.js");
 
 require.alias("component-query/index.js", "tour/deps/query/index.js");
 require.alias("component-query/index.js", "query/index.js");

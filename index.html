@@ -9,8 +9,8 @@
         background-color: #FFDC00;
       }
 
-      .overlay {
-        background: transparent;
+      .overlay.tour-overlay {
+        background-color: rgba(255, 255, 255, .3);
       }
 
       .hidden {
@@ -22,44 +22,100 @@
         float: right;
       }
 
-      [data-tour-id="image"] {
+      .flowers {
         display: block;
         clear: both;
         margin: 3em auto;
+        transition: all .3s ease-in-out;
         width: 288px;
+      }
+
+      .flowers.big {
+        width: 100px;
+      }
+
+      .flowers.tour-active-step {
+        -webkit-filter: grayscale(100%);
+        box-shadow: 0 0 15px black;
       }
 
       [data-tour-id="text"] {
         display: block;
         width: 30%;
+        padding: 1em;
+        background-color: rgba(255, 255, 255, .8);
       }
 
-      .start {
+      .buttons button {
         font-size: 1rem;
+      }
+
+      .tour-popover .popover-content {
+        background-color: chocolate;
+        font-size: 1.3em;
+      }
+
+      .tour-popover.tour-reacted .before {
+        display: none;
+      }
+      .tour-popover:not(.tour-reacted) .after {
+        display: none;
+      }
+
+      .status {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        margin: 1em;
+        padding: 1em;
+        background-color: black;
+        color: white;
+        font-weight: bold;
       }
     </style>
   </head>
   <body>
-    <button class="start">Click to Start Tour</button>
+    <div class='buttons'>
+      <button class="start">Click to Start Tour</button>
+      <button class="start-overlay">Click to Start Tour with Overlay</button>
+    </div>
     <input data-tour-id="button" type="submit" value="Important button"></input>
-    <img data-tour-id="image" src='https://lh3.googleusercontent.com/-ndFbEVL6ZsQ/UqUV6v5XWvI/AAAAAAAAfnw/_4FYnvUYMDU/s288/P1400253.JPG'>
+    <img class="flowers" src='https://lh3.googleusercontent.com/-ndFbEVL6ZsQ/UqUV6v5XWvI/AAAAAAAAfnw/_4FYnvUYMDU/s288/P1400253.JPG'>
     <p data-tour-id="text">
-      Id eros vidit pri. Ad amet explicari vel. Cum ne patrioque voluptatum, sed mutat facilisi no. Quem detraxit has at, nec at wisi signiferumque, ea sit amet legimus. Erat munere accusam ne sed, an eos delenit inermis omittantur.</p>
+      Id eros vidit pri. Ad amet explicari vel. Cum ne patrioque voluptatum, sed mutat facilisi no. Quem detraxit has at, nec at wisi signiferumque, ea sit amet legimus. Erat munere accusam ne sed, an eos delenit inermis omittantur.
+    </p>
+    <p class="status"></p>
     <div class='hidden'>
       <span data-tour-content="button">This is how we start the tour.</span>
-      <div data-tour-content="image">
-        <p>We have nice picture here.</p>
-        <p><em>Seen enough?</em></p>
+      <div data-tour-content=".flowers" data-position="left" data-delay="100">
+        <p class='before'>Try clicking on this photo. It should change its size.</p>
+        <p class='after'><em>Good job!</em></p>
       </div>
-      <div data-tour-content="text">
+      <div data-tour-content="text" data-position="top">
         And that is the last element...
       </div>
     </div>
     <script src="build/build.js"></script>
     <script>
-      var tour = require('tour');
+      var tour = require('tour')();
       document.querySelector('.start').addEventListener('click', function() {
-        tour().play();
+        tour.play();
+      });
+      document.querySelector('.flowers').addEventListener('click', function(e) {
+        tour.react(300);
+        e.target.classList.toggle('big');
+      });
+      document.querySelector('.start-overlay').addEventListener('click', function() {
+        require('tour')().overlay().play();
+      });
+      tour.on('next', function(index) {
+        document.querySelector('.status').textContent = 'Next step: ' + index;
+      });
+      tour.on('begin', function(index) {
+        document.querySelector('.status').textContent = 'Tour started';
+      });
+      tour.on('end', function(index) {
+        document.querySelector('.status').textContent = 'Tour completed';
       });
     </script>
   </body>

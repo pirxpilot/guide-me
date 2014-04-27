@@ -35,8 +35,6 @@
   box-shadow: inset 0 1px 0 white;
 }
 
-
-
 .overlay {
   position: absolute;
   top: 0;
@@ -51,9 +49,13 @@
   z-index: 500;
 }
 
-.overlay.hide {
+.overlay.hidden {
   pointer-events: none;
   opacity: 0;
+}
+
+.overlay.closable {
+  cursor: pointer;
 }
 
 
