@@ -16,6 +16,7 @@ function steps() {
       id: id,
       contentEl: el,
       position: data.get('position') || 'bottom',
+      delay: data.get('delay') || 0,
       refEl: q('[data-tour-id="' + id + '"]') || q(id)
     };
   })
@@ -26,7 +27,8 @@ function steps() {
 }
 
 
-function createPopover(self, step) {
+function createPopover(step) {
+  var self = this;
   self.popover = new Popover(step.contentEl.cloneNode(true));
   self.popover.classname += ' tour-popover';
   self.popover.classes.add('tour-popover');
@@ -119,7 +121,7 @@ Tour.prototype.showStep = function() {
 
   this.hideStep();
 
-  createPopover(this, step);
+  setTimeout(createPopover.bind(this, step), step.delay);
 };
 
 // called when user acted upon a suggestion in a Tour step
@@ -133,7 +135,7 @@ Tour.prototype.react = function(delay) {
     return;
   }
   if (typeof delay !== 'number') {
-    delay = 100;
+    delay = step.delay;
   }
 
   var popover = this.popover.hide();
