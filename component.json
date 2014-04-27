@@ -2,7 +2,7 @@
   "name": "tour",
   "repo": "code42day/tour",
   "description": "Data driven feature tour.",
-  "version": "0.6.1",
+  "version": "0.6.2",
   "keywords": [],
   "dependencies": {
     "code42day/dataset": "0.3.0",
