@@ -1,4 +1,11 @@
 
+0.6.0 / 2014-04-26
+==================
+
+ * add index param to Tour.play
+ * add Tour.react function
+ * make overlay optional
+
 0.5.0 / 2014-04-26
 ==================
 

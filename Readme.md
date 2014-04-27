@@ -13,7 +13,7 @@
 
 ## API
 
-### `Tour.play`
+### `Tour.play(index)`
 
 Call `play to start the tour.
 
@@ -21,6 +21,10 @@ Call `play to start the tour.
     var tour = require('tour');
     tour().play();
 ```
+
+The optional `index` parameter allows to specify the step from which tour should be started. If
+`play` is called multiple times without `index` parameter, it restarts itself from
+the step following the one that has been closed.
 
 Tour is driven by HTML content. Elements with `data-tour-content` attribute are considered tour
 steps. Each step describes DOM element with `data-tour-id` attribute.
@@ -69,7 +73,22 @@ Default position of step popover is `bottom`. It can be changed by specifying `d
 </span>
 ```
 
-### Styling
+### Tour.react()
+
+Temporarily hides and redisplays the active step. Can be used to adjust the tour popover whenever
+user action changes the screen layout.
+
+
+### Tour.hideStep()
+
+Hidess active tour step.
+
+
+### Tour.showStep()
+
+Shows active tour step.
+
+## Styling
 
 Tour specific CSS can be used to style tours popovers and to mark the active steps.
 
