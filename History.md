@@ -1,4 +1,9 @@
 
+0.6.1 / 2014-04-26
+==================
+
+ * add `tour-reacted` style to popover after `react` is called
+
 0.6.0 / 2014-04-26
 ==================
 
