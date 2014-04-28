@@ -145,6 +145,7 @@ Tour.prototype.react = function(delay) {
   var popover = this.popover.hide();
   setTimeout(function() {
     popover.show(step.refEl);
+    popover.classname += ' tour-reacted';
     popover.classes.add('tour-reacted');
   }, delay);
 };
