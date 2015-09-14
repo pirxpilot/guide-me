@@ -1,19 +1,33 @@
-NODE_BIN=./node_modules/.bin
+PROJECT=tour
 
-all: check build
+all: check compile
 
 check: lint
 
 lint:
-	$(NODE_BIN)/jshint index.js
+	jshint index.js
 
-build: components index.js
-	@component build --dev
+compile: build/build.js build/build.css
 
-components: component.json
-	@component install --dev
+build:
+	mkdir -p $@
+
+build/build.js: node_modules index.js | build
+	browserify --require ./index.js:$(PROJECT) --outfile $@
+
+.DELETE_ON_ERROR: build/build.js
+
+build/build.css: \
+	node_modules/overlay-component/overlay.css \
+	node_modules/confirmation-popover-component/node_modules/popover-component/node_modules/component-tip/tip.css \
+	node_modules/confirmation-popover-component/popover.css \
+	| build
+	cat $^ > $@
+
+node_modules: package.json
+	npm install
 
 clean:
-	rm -fr build components
+	rm -fr build node_modules
 
-.PHONY: clean lint check test
+.PHONY: clean lint check all build
