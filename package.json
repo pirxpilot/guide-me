@@ -1,8 +1,7 @@
 {
   "name": "code42day-tour",
   "version": "0.6.5",
-  "description": "Data driven feature tour",
-  "main": "index.js",
+  "description": "Data driven feature tour.",
   "scripts": {
     "test": "make check"
   },
@@ -11,16 +10,29 @@
     "url": "https://github.com/code42day/tour.git"
   },
   "keywords": [
-    "component-js",
-    "feature tour"
+    "browser"
   ],
+  "dependencies": {
+    "dataset": "~0",
+    "component-classes": "^1.2.1",
+    "component-emitter": "^1.1.2",
+    "component-query": "^0.0.3",
+    "confirmation-popover-component": "component/confirmation-popover#browserify",
+    "overlay-component": "^0.3.0"
+  },
+  "browser": {
+    "classes": "component-classes",
+    "emitter": "component-emitter",
+    "confirmation-popover": "confirmation-popover-component",
+    "overlay": "overlay-component",
+    "query": "component-query"
+  },
   "author": "Damian Krzeminski <pirxpilot@code42day.com>",
   "license": "MIT",
-  "readmeFilename": "Readme.md",
   "bugs": {
-    "url": "https://github.com/code42day/el/issues"
+    "url": "https://github.com/code42day/tour/issues"
   },
   "devDependencies": {
-    "jshint": "~2"
+    "stringify": "^3.1.0"
   }
 }

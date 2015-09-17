@@ -4,9 +4,74 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link rel="stylesheet" href="build/build.css" type="text/css">
     <style>
+
       body {
         padding: 4em;
         background-color: #FFDC00;
+      }
+
+      .tip-inner {
+        background-color: rgba(0,0,0,.75);
+        color: #fff;
+        padding: 2px;
+        text-align: center;
+      }
+
+      .tip-arrow {
+        position: absolute;
+        width: 0;
+        height: 0;
+        line-height: 0;
+        border: 5px dashed rgba(0,0,0,.75);
+      }
+
+      .tip-arrow-top { border-top-color: rgba(0,0,0,.75) }
+      .tip-arrow-bottom { border-bottom-color: rgba(0,0,0,.75) }
+      .tip-arrow-left { border-left-color: rgba(0,0,0,.75) }
+      .tip-arrow-right { border-right-color: rgba(0,0,0,.75) }
+
+      .tip-top .tip-arrow,
+      .tip-top-left .tip-arrow,
+      .tip-top-right .tip-arrow {
+        bottom: 0;
+        left: 50%;
+        margin-left: -5px;
+        border-top-style: solid;
+        border-bottom: none;
+        border-left-color: transparent;
+        border-right-color: transparent
+      }
+
+      .tip-bottom .tip-arrow,
+      .tip-bottom-left .tip-arrow,
+      .tip-bottom-right .tip-arrow {
+        top: 0px;
+        left: 50%;
+        margin-left: -5px;
+        border-bottom-style: solid;
+        border-top: none;
+        border-left-color: transparent;
+        border-right-color: transparent
+      }
+
+      .tip-left .tip-arrow {
+        right: 0;
+        top: 50%;
+        margin-top: -5px;
+        border-left-style: solid;
+        border-right: none;
+        border-top-color: transparent;
+        border-bottom-color: transparent
+      }
+
+      .tip-right .tip-arrow {
+        left: 0;
+        top: 50%;
+        margin-top: -5px;
+        border-right-style: solid;
+        border-left: none;
+        border-top-color: transparent;
+        border-bottom-color: transparent
       }
 
       .overlay.tour-overlay {
@@ -52,7 +117,6 @@
 
       .tour-popover .popover-content {
         background-color: chocolate;
-        font-size: 1.3em;
       }
 
       .tour-popover.tour-reacted .before {
