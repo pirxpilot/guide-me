@@ -1,4 +1,9 @@
 
+0.6.7 / 2015-09-17
+==================
+
+ * update deps: confirmation-popover-component -> code42day-confirmation-popover
+
 0.6.6 / 2015-09-17
 ==================
 
