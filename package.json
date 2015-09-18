@@ -14,16 +14,16 @@
   ],
   "dependencies": {
     "dataset": "~0",
+    "code42day-confirmation-popover": "^1.0.2",
     "component-classes": "^1.2.1",
     "component-emitter": "^1.1.2",
     "component-query": "^0.0.3",
-    "confirmation-popover-component": "component/confirmation-popover#browserify",
     "overlay-component": "^0.3.0"
   },
   "browser": {
     "classes": "component-classes",
     "emitter": "component-emitter",
-    "confirmation-popover": "confirmation-popover-component",
+    "confirmation-popover": "code42day-confirmation-popover",
     "overlay": "overlay-component",
     "query": "component-query"
   },
