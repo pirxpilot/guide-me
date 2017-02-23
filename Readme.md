@@ -5,11 +5,11 @@
 
 ## Installation
 
-  Install with [component(1)](http://component.io):
+  Install with [npm]:
 
-    $ component install code42day/tour
+    $ npm install guide-me
 
-  Live demo is [here](http://code42day.github.io/tour/)
+  Live demo is [here](http://pirxpilot.github.io/guide-me/)
 
 ## API
 
@@ -18,7 +18,7 @@
 Call `play to start the tour.
 
 ```javascript
-    var tour = require('tour');
+    var tour = require('guide-me');
     tour().play();
 ```
 
@@ -122,7 +122,7 @@ Tour specific CSS can be used to style tours popovers and to mark the active ste
 
   The MIT License (MIT)
 
-  Copyright (c) 2014 code42day
+  Copyright (c) 2014 [Damian Krzeminski](https://pirxpilot.me)
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -141,3 +141,5 @@ Tour specific CSS can be used to style tours popovers and to mark the active ste
   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
+
+[npm]: https://www.npmjs.org/

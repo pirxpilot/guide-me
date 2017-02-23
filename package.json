@@ -1,5 +1,5 @@
 {
-  "name": "code42day-tour",
+  "name": "guide-me",
   "version": "0.6.7",
   "description": "Data driven feature tour.",
   "scripts": {
@@ -7,14 +7,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/code42day/tour.git"
+    "url": "https://github.com/pirxpilot/guide-me.git"
   },
   "keywords": [
     "browser"
   ],
   "dependencies": {
     "dataset": "~0",
-    "code42day-confirmation-popover": "^1.0.2",
+    "@pirxpilot/confirmation-popover": "^1.0.3",
     "component-classes": "^1.2.1",
     "component-emitter": "^1.1.2",
     "component-query": "^0.0.3",
@@ -23,15 +23,12 @@
   "browser": {
     "classes": "component-classes",
     "emitter": "component-emitter",
-    "confirmation-popover": "code42day-confirmation-popover",
+    "confirmation-popover": "@pirxpilot/confirmation-popover",
     "overlay": "overlay-component",
     "query": "component-query"
   },
-  "author": "Damian Krzeminski <pirxpilot@code42day.com>",
+  "author": "Damian Krzeminski <pirxpilot@furkot.com>",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/code42day/tour/issues"
-  },
   "devDependencies": {
     "stringify": "^3.1.0"
   }
