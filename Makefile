@@ -25,7 +25,7 @@ build/build.css: \
 	cat $^ > $@
 
 node_modules: package.json
-	npm install
+	yarn && touch $@
 
 clean:
 	rm -fr build node_modules
