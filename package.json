@@ -14,11 +14,11 @@
   ],
   "dependencies": {
     "dataset": "~0",
-    "@pirxpilot/confirmation-popover": "^1.0.3",
     "component-classes": "^1.2.1",
     "component-emitter": "^1.1.2",
     "component-query": "^0.0.3",
-    "overlay-component": "^0.3.0"
+    "overlay-component": "^0.3.0",
+    "@pirxpilot/confirmation-popover": "^1.0.5"
   },
   "browser": {
     "classes": "component-classes",

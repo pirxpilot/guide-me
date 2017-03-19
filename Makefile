@@ -19,8 +19,8 @@ build/build.js: node_modules index.js | build
 
 build/build.css: \
 	node_modules/overlay-component/overlay.css \
-	node_modules/code42day-tip/tip.css \
 	node_modules/@pirxpilot/confirmation-popover/popover.css \
+	node_modules/@pirxpilot/tip/tip.css \
 	| build
 	cat $^ > $@
 
