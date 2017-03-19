@@ -1,4 +1,10 @@
 
+0.6.9 / 2017-03-18
+==================
+
+ * yarn instead of npm
+ * update deprecated dependencies
+
 0.6.8 / 2017-02-22
 ==================
 
