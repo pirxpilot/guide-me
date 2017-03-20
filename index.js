@@ -51,20 +51,8 @@ function createPopover(step) {
     .on('hide', function() {
       self.emit('hide', self.current);
     })
-    .on('cancel', function() {
-      self.markStep(false);
-      if (self._overlay) {
-        self._overlay.hide();
-      }
-      self.hideStep();
-      ++self.current;
-      self.emit('end');
-    })
-    .on('ok', function() {
-      self.markStep(false);
-      self.emit('next', ++self.current);
-      setTimeout(self.showStep.bind(self), 0);
-    })
+    .on('cancel', self.end.bind(self))
+    .on('ok', self.next.bind(self))
     .position(step.position)
     .show(step.refEl);
 }
@@ -158,4 +146,24 @@ Tour.prototype.react = function(delay) {
     popover.classname += ' tour-reacted';
     popover.classes.add('tour-reacted');
   }, delay);
+};
+
+Tour.prototype.next = function() {
+  var self = this;
+
+  self.markStep(false);
+  self.emit('next', ++self.current);
+  setTimeout(self.showStep.bind(self), 0);
+};
+
+Tour.prototype.end = function() {
+  var self = this;
+
+  self.markStep(false);
+  if (self._overlay) {
+    self._overlay.hide();
+  }
+  self.hideStep();
+  ++self.current;
+  self.emit('end');
 };
