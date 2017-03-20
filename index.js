@@ -8,8 +8,8 @@ var Emitter = require('emitter');
 module.exports = Tour;
 
 // parse HTML to create a list of steps - tour-id / tour-content need to match
-function steps() {
-  return Array.prototype.map.call(q.all('[data-tour-content]'), function(el) {
+function steps(container) {
+  return Array.prototype.map.call(q.all('[data-tour-content]', container), function(el) {
     var data = ds(el),
       id = data.get('tourContent');
     return {
@@ -61,9 +61,9 @@ function createPopover(step) {
     .show(step.refEl);
 }
 
-function Tour() {
-  if (!(this instanceof Tour)) return new Tour();
-  this.steps = steps();
+function Tour(container) {
+  if (!(this instanceof Tour)) return new Tour(container);
+  this.steps = steps(container);
   this.current = 0;
 }
 
