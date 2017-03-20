@@ -1,4 +1,11 @@
 
+0.7.0 / 2017-03-20
+==================
+
+ * expose 'next' and 'end' methods
+ * support steps for content that is instantiated during the tour
+ * optionally pass container for guided tour steps
+
 0.6.9 / 2017-03-18
 ==================
 
