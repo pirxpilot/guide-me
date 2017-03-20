@@ -7,6 +7,10 @@ var Emitter = require('emitter');
 
 module.exports = Tour;
 
+function id2el(id) {
+  return q('[data-tour-id="' + id + '"]') || q(id);
+}
+
 // parse HTML to create a list of steps - tour-id / tour-content need to match
 function steps(container) {
   return Array.prototype.map.call(q.all('[data-tour-content]', container), function(el) {
@@ -17,18 +21,22 @@ function steps(container) {
       contentEl: el,
       position: data.get('position') || 'bottom',
       delay: data.get('delay') || 0,
-      refEl: q('[data-tour-id="' + id + '"]') || q(id)
+      absent: data.get('contentAbsent') !== undefined,
+      refEl: id2el(id)
     };
   })
   .filter(function(step) {
     // only consider steps for which referenceEl is found
-    return step.refEl;
+    return step.refEl || step.absent;
   });
 }
 
-
 function createPopover(step) {
   var self = this;
+  if (step.absent) {
+    step.refEl = id2el(step.id);
+    self.markStep(true);
+  }
   self.popover = new Popover(step.contentEl.cloneNode(true));
   self.popover.classname += ' tour-popover';
   self.popover.classes.add('tour-popover');
@@ -117,7 +125,9 @@ Tour.prototype.showStep = function() {
   if (!step) {
     return;
   }
-  this.markStep(true);
+  if (!step.absent) {
+      this.markStep(true);
+  }
 
   this.hideStep();
 
