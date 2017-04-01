@@ -1,4 +1,9 @@
 
+0.8.0 / 2017-04-01
+==================
+
+ * add support for custom/translated labels for tour buttons
+
 0.7.0 / 2017-03-20
 ==================
 
