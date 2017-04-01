@@ -42,8 +42,8 @@ function createPopover(step) {
   self.popover.classes.add('tour-popover');
   self.updateNext();
   self.popover
-    .cancel('Close')
-    .ok('Next')
+    .cancel(self.labels.cancel)
+    .ok(self.labels.ok)
     .focus('ok')
     .on('show', function() {
       self.emit('show', self.current);
@@ -57,10 +57,14 @@ function createPopover(step) {
     .show(step.refEl);
 }
 
-function Tour(container) {
-  if (!(this instanceof Tour)) return new Tour(container);
+function Tour(container, options) {
+  if (!(this instanceof Tour)) return new Tour(container, options);
   this.steps = steps(container);
   this.current = 0;
+  this.labels = Object.assign({
+    ok: 'Next',
+    cancel: 'Close'
+  }, options && options.labels);
 }
 
 Emitter(Tour.prototype);

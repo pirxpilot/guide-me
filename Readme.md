@@ -118,6 +118,19 @@ Tour specific CSS can be used to style tours popovers and to mark the active ste
 - `tour-active-step` marks the element associated with current active step
 - `tour-overlay` allows changing the overlay defaults
 
+## Custom labels
+
+To change 'Next' and 'Close' labels in the Tour windows pass `options.labels` parameter to `Tour` constructor
+
+```javascript
+var customLabels = {
+  cancel: 'Got it!',
+  ok: 'Go on...'
+};
+var tour = require('tour')(null, { labels: customLabels });
+
+```
+
 ## License
 
   The MIT License (MIT)
