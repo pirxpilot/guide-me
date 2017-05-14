@@ -18,6 +18,16 @@
     computed-style-component "^0.1.0"
     to-camel-case "^0.2.1"
 
+"@pirxpilot/overlay@*":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@pirxpilot/overlay/-/overlay-1.0.0.tgz#32de62980fa7574ddebc7ab8e23a2c9185f4ba38"
+  dependencies:
+    component-classes "*"
+    component-emitter "*"
+    component-event "*"
+    domify "*"
+    el-component "*"
+
 "@pirxpilot/popover@^1.1.4":
   version "1.1.4"
   resolved "https://registry.yarnpkg.com/@pirxpilot/popover/-/popover-1.1.4.tgz#e0090593e1a9f80e2d9974e3c39dc99046d43e4b"
@@ -124,15 +134,11 @@ component-delegate@0.2.4:
     component-closest "*"
     component-event "*"
 
-component-emitter@^1.1.2, component-emitter@^1.1.3:
+component-emitter@*, component-emitter@^1.1.2, component-emitter@^1.1.3:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/component-emitter/-/component-emitter-1.2.1.tgz#137918d6d78283f7df7a6b7c5a63e140e69425e6"
 
-component-event@*:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/component-event/-/component-event-0.2.0.tgz#8689a7c25a7dd0afe7e2e8408091d5b9e12ce196"
-
-component-event@0.1.4:
+component-event@*, component-event@0.1.4:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/component-event/-/component-event-0.1.4.tgz#3de78fc28782381787e24bf2a7c536bf0142c9b4"
 
@@ -194,9 +200,9 @@ dot-case@^1.0.0:
   dependencies:
     sentence-case "^1.1.2"
 
-emitter-component@*:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/emitter-component/-/emitter-component-1.1.1.tgz#065e2dbed6959bf470679edabeaf7981d1003ab6"
+el-component@*:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/el-component/-/el-component-1.0.1.tgz#ef4ba9d8b5aa9faf1e2491d483aac8e4470b381b"
 
 exit@0.1.2:
   version "0.1.2"
@@ -257,16 +263,6 @@ minimatch@0.3:
   dependencies:
     lru-cache "2"
     sigmund "~1.0.0"
-
-overlay-component@^0.3.0:
-  version "0.3.5"
-  resolved "https://registry.yarnpkg.com/overlay-component/-/overlay-component-0.3.5.tgz#57189d962eb2f8ba1e1167572335b0907976a1e7"
-  dependencies:
-    component-classes "*"
-    component-event "*"
-    domify "*"
-    emitter-component "*"
-    stringify "^3.1.0"
 
 param-case@^1.0.0:
   version "1.1.2"

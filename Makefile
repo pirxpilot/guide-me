@@ -18,7 +18,7 @@ build/build.js: node_modules index.js | build
 .DELETE_ON_ERROR: build/build.js
 
 build/build.css: \
-	node_modules/overlay-component/overlay.css \
+	node_modules/@pirxpilot/overlay/overlay.css \
 	node_modules/@pirxpilot/confirmation-popover/popover.css \
 	node_modules/@pirxpilot/tip/tip.css \
 	| build
