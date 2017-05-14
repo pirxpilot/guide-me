@@ -5,10 +5,7 @@
   "scripts": {
     "test": "make check"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/pirxpilot/guide-me.git"
-  },
+  "repository": "pirxpilot/guide-me",
   "keywords": [
     "browser"
   ],
@@ -31,5 +28,8 @@
   "license": "MIT",
   "devDependencies": {
     "stringify": "^3.1.0"
-  }
+  },
+  "files": [
+    "index.js"
+  ]
 }
