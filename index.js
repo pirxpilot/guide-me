@@ -11,6 +11,18 @@ function id2el(id) {
   return q('[data-tour-id="' + id + '"]') || q(id);
 }
 
+function coerce(selectorOrNode) {
+  if (typeof selectorOrNode !== 'string') {
+    // node or empty
+    return selectorOrNode;
+  }
+  var el = q(selectorOrNode);
+  if (el.nodeName === 'TEMPLATE' && el.content) {
+    return el.content;
+  }
+  return el;
+}
+
 // parse HTML to create a list of steps - tour-id / tour-content need to match
 function steps(container) {
   return Array.prototype.map.call(q.all('[data-tour-content]', container), function(el) {
@@ -59,7 +71,7 @@ function createPopover(step) {
 
 function Tour(container, options) {
   if (!(this instanceof Tour)) return new Tour(container, options);
-  this.steps = steps(container);
+  this.steps = steps(coerce(container));
   this.current = 0;
   this.labels = Object.assign({
     ok: 'Next',

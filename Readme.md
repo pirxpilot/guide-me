@@ -19,7 +19,7 @@ Call `play to start the tour.
 
 ```javascript
     var tour = require('guide-me');
-    tour().play();
+    tour('#tour-id').play();
 ```
 
 The optional `index` parameter allows to specify the step from which tour should be started. If
@@ -30,7 +30,7 @@ Tour is driven by HTML content. Elements with `data-tour-content` attribute are 
 steps. Each step describes DOM element with `data-tour-id` attribute.
 
 ```html
-<div class='hidden'>
+<template id='tour-id'>
   <span data-tour-content="button">This is how we start the tour.</span>
   <div data-tour-content="image">
     <p>We have nice picture here.</p>
@@ -39,7 +39,7 @@ steps. Each step describes DOM element with `data-tour-id` attribute.
   <div data-tour-content="text">
     And that is the last element...
   </div>
-</div>
+</template>
 ```
 
 The above example assumes that somewhere else on the page we have the corresponsing elements. The

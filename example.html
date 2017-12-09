@@ -149,7 +149,7 @@
       Id eros vidit pri. Ad amet explicari vel. Cum ne patrioque voluptatum, sed mutat facilisi no. Quem detraxit has at, nec at wisi signiferumque, ea sit amet legimus. Erat munere accusam ne sed, an eos delenit inermis omittantur.
     </p>
     <p class="status"></p>
-    <div class='hidden'>
+    <template id='example-tour'>
       <span data-tour-content="button">This is how we start the tour.</span>
       <div data-tour-content=".flowers" data-position="left" data-delay="100">
         <p class='before'>Try clicking on this photo. It should change its size.</p>
@@ -158,11 +158,11 @@
       <div data-tour-content="text" data-position="top">
         And that is the last element...
       </div>
-    </div>
+    </template>
     <script src="build/build.js"></script>
     <script>
       var customLabels = { cancel: 'Got it!' };
-      var tour = require('tour')(null, { labels: customLabels });
+      var tour = require('tour')('#example-tour', { labels: customLabels });
       document.querySelector('.start').addEventListener('click', function() {
         tour.play();
       });
@@ -171,7 +171,7 @@
         e.target.classList.toggle('big');
       });
       document.querySelector('.start-overlay').addEventListener('click', function() {
-        require('tour')().overlay().play();
+        require('tour')('#example-tour').overlay().play();
       });
       tour.on('next', function(index) {
         document.querySelector('.status').textContent = 'Next step: ' + index;
