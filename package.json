@@ -10,7 +10,7 @@
     "browser"
   ],
   "dependencies": {
-    "@pirxpilot/confirmation-popover": "^1.0.5",
+    "@pirxpilot/confirmation-popover": "~1",
     "@pirxpilot/overlay": "*",
     "component-emitter": "^1.1.2",
     "component-query": "^0.0.3",
@@ -25,7 +25,7 @@
   "author": "Damian Krzeminski <pirxpilot@furkot.com>",
   "license": "MIT",
   "devDependencies": {
-    "stringify": "^3.1.0"
+    "stringify": "~5"
   },
   "files": [
     "index.js"
