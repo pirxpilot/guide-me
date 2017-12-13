@@ -1,6 +1,5 @@
 var q = require('query');
 var ds = require('dataset');
-var classes = require('classes');
 var overlay = require('overlay');
 var Popover = require('confirmation-popover');
 var Emitter = require('emitter');
@@ -51,7 +50,7 @@ function createPopover(step) {
   }
   self.popover = new Popover(step.contentEl.cloneNode(true));
   self.popover.classname += ' tour-popover';
-  self.popover.classes.add('tour-popover');
+  self.popover.el.classList.add('tour-popover');
   self.updateNext();
   self.popover
     .cancel(self.labels.cancel)
@@ -83,7 +82,7 @@ Emitter(Tour.prototype);
 
 Tour.prototype.overlay = function(options) {
   this._overlay = overlay(options);
-  classes(this._overlay.el).add('tour-overlay');
+  this._overlay.el.classList.add('tour-overlay');
   return this;
 };
 
@@ -102,14 +101,14 @@ Tour.prototype.play = function(index) {
 
 // hides next button for last step
 Tour.prototype.updateNext = function() {
-  classes(q('.ok', this.popover.el)).toggle('hidden', this.current + 1 >= this.steps.length);
+  q('.ok', this.popover.el).classList.toggle('hidden', this.current + 1 >= this.steps.length);
 };
 
 // marks element associated with active step
 Tour.prototype.markStep = function(on) {
   var step = this.steps[this.current];
   if (step) {
-    classes(step.refEl).toggle('tour-active-step', on);
+    step.refEl.classList.toggle('tour-active-step', on);
   }
 };
 
@@ -148,7 +147,7 @@ Tour.prototype.react = function(delay) {
   if (!this.popover) {
     return;
   }
-  if (this.popover.classes.has('tour-reacted')) {
+  if (this.popover.el.classList.contains('tour-reacted')) {
     return;
   }
 
@@ -160,7 +159,7 @@ Tour.prototype.react = function(delay) {
   setTimeout(function() {
     popover.show(step.refEl);
     popover.classname += ' tour-reacted';
-    popover.classes.add('tour-reacted');
+    popover.el.classList.add('tour-reacted');
   }, delay);
 };
 

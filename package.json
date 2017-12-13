@@ -12,13 +12,11 @@
   "dependencies": {
     "@pirxpilot/confirmation-popover": "^1.0.5",
     "@pirxpilot/overlay": "*",
-    "component-classes": "^1.2.1",
     "component-emitter": "^1.1.2",
     "component-query": "^0.0.3",
     "dataset": "~0"
   },
   "browser": {
-    "classes": "component-classes",
     "emitter": "component-emitter",
     "confirmation-popover": "@pirxpilot/confirmation-popover",
     "overlay": "@pirxpilot/overlay",
