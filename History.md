@@ -1,4 +1,10 @@
 
+1.0.1 / 2017-12-13
+==================
+
+ * upgrade confirmation-popover
+ * remove component-classes
+
 1.0.0 / 2017-12-08
 ==================
 
