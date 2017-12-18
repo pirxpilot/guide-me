@@ -1,5 +1,4 @@
 var q = require('query');
-var ds = require('dataset');
 var overlay = require('overlay');
 var Popover = require('confirmation-popover');
 var Emitter = require('emitter');
@@ -25,14 +24,13 @@ function coerce(selectorOrNode) {
 // parse HTML to create a list of steps - tour-id / tour-content need to match
 function steps(container) {
   return Array.prototype.map.call(q.all('[data-tour-content]', container), function(el) {
-    var data = ds(el),
-      id = data.get('tourContent');
+    var id = el.dataset.tourContent;
     return {
       id: id,
       contentEl: el,
-      position: data.get('position') || 'bottom',
-      delay: data.get('delay') || 0,
-      absent: data.get('contentAbsent') !== undefined,
+      position: el.dataset.position || 'bottom',
+      delay: el.dataset.delay || 0,
+      absent: el.dataset.contentAbsent !== undefined,
       refEl: id2el(id)
     };
   })
