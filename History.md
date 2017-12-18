@@ -1,4 +1,9 @@
 
+2.0.0 / 2017-12-17
+==================
+
+ * remove dataset dependency - IE 11 or dataset pilyfill needed 
+
 1.0.1 / 2017-12-13
 ==================
 
