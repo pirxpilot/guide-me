@@ -2,13 +2,11 @@
 # yarn lockfile v1
 
 
-"@pirxpilot/confirmation-popover@~1":
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/@pirxpilot/confirmation-popover/-/confirmation-popover-1.0.6.tgz#3de885249d4f9e138163101b65f0bc39098db6e3"
+"@pirxpilot/confirmation-popover@~2":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@pirxpilot/confirmation-popover/-/confirmation-popover-2.0.0.tgz#e435bc3b8d75f8b262385d5468895d7d8db35e11"
   dependencies:
-    "@pirxpilot/popover" "~1"
-    component-inherit "~0"
-    component-query "~0"
+    "@pirxpilot/popover" "~2"
 
 "@pirxpilot/events@~1":
   version "1.0.1"
@@ -22,22 +20,19 @@
     domify "*"
     el-component "*"
 
-"@pirxpilot/popover@~1":
-  version "1.1.5"
-  resolved "https://registry.yarnpkg.com/@pirxpilot/popover/-/popover-1.1.5.tgz#ad5de4dba8ef1b617500912a4ca0c2ad1822c783"
+"@pirxpilot/popover@~2":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@pirxpilot/popover/-/popover-2.0.0.tgz#b35bc0807e74a869a830c1f36e07e7a885d22cba"
   dependencies:
-    "@pirxpilot/tip" "^2.5.3"
-    component-inherit "~0"
-    component-query "*"
+    "@pirxpilot/tip" "~3"
 
-"@pirxpilot/tip@^2.5.3":
-  version "2.5.4"
-  resolved "https://registry.yarnpkg.com/@pirxpilot/tip/-/tip-2.5.4.tgz#d8ef26d94180b694e8af9639649b0418be3e257d"
+"@pirxpilot/tip@~3":
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/@pirxpilot/tip/-/tip-3.0.0.tgz#7de03bd785daa7bd765e8dd10bf0256c6010438a"
   dependencies:
     "@pirxpilot/events" "~1"
     bounding-client-rect "^1.0.5"
     component-emitter "^1.1.3"
-    component-query "~0"
     domify "^1.3.0"
 
 acorn@^5.0.0:
@@ -84,11 +79,7 @@ component-emitter@*, component-emitter@^1.1.2, component-emitter@^1.1.3:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/component-emitter/-/component-emitter-1.2.1.tgz#137918d6d78283f7df7a6b7c5a63e140e69425e6"
 
-component-inherit@~0:
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/component-inherit/-/component-inherit-0.0.3.tgz#645fc4adf58b72b649d5cae65135619db26ff143"
-
-component-query@*, component-query@^0.0.3, component-query@~0:
+component-query@^0.0.3:
   version "0.0.3"
   resolved "https://registry.yarnpkg.com/component-query/-/component-query-0.0.3.tgz#07f49dab7071fa9606725df53e607f468acdaacf"
 
