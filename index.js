@@ -20,21 +20,27 @@ function coerce(selectorOrNode) {
 
 // parse HTML to create a list of steps - tour-id / tour-content need to match
 function steps(container) {
-  return Array.prototype.map.call(container.querySelectorAll('[data-tour-content]'), function(el) {
+  const result = [];
+  container.querySelectorAll('[data-tour-content]').forEach(function(el) {
     const id = el.dataset.tourContent;
-    return {
+    const refEl = id2el(id);
+    const absent = el.dataset.contentAbsent !== undefined;
+
+    // only consider steps for which referenceEl is found
+    if (!refEl && !absent) {
+      return;
+    }
+
+    result.push({
       id,
       contentEl: el,
       position: el.dataset.position || 'bottom',
       delay: el.dataset.delay || 0,
-      absent: el.dataset.contentAbsent !== undefined,
-      refEl: id2el(id)
-    };
-  })
-  .filter(function(step) {
-    // only consider steps for which referenceEl is found
-    return step.refEl || step.absent;
+      absent,
+      refEl
+    });
   });
+  return result;
 }
 
 function createPopover(step) {
