@@ -162,7 +162,8 @@
     <script src="build/build.js"></script>
     <script>
       var customLabels = { cancel: 'Got it!' };
-      var tour = require('tour')('#example-tour', { labels: customLabels });
+      var Tour = require('tour');
+      var tour = new Tour('#example-tour', { labels: customLabels });
       document.querySelector('.start').addEventListener('click', function() {
         tour.play();
       });
@@ -171,15 +172,15 @@
         e.target.classList.toggle('big');
       });
       document.querySelector('.start-overlay').addEventListener('click', function() {
-        require('tour')('#example-tour').overlay().play();
+        Tour.of('#example-tour').overlay().play();
       });
       tour.on('next', function(index) {
         document.querySelector('.status').textContent = 'Next step: ' + index;
       });
-      tour.on('begin', function(index) {
+      tour.on('begin', function() {
         document.querySelector('.status').textContent = 'Tour started';
       });
-      tour.on('end', function(index) {
+      tour.on('end', function() {
         document.querySelector('.status').textContent = 'Tour completed';
       });
     </script>
