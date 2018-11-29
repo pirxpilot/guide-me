@@ -12,8 +12,7 @@
   "dependencies": {
     "@pirxpilot/confirmation-popover": "~2",
     "@pirxpilot/overlay": "*",
-    "component-emitter": "^1.1.2",
-    "component-query": "^0.0.3"
+    "component-emitter": "^1.1.2"
   },
   "browser": {
     "emitter": "component-emitter",

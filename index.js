@@ -1,4 +1,3 @@
-var q = require('query');
 var overlay = require('overlay');
 var Popover = require('confirmation-popover');
 var Emitter = require('emitter');
@@ -6,7 +5,7 @@ var Emitter = require('emitter');
 module.exports = Tour;
 
 function id2el(id) {
-  return q('[data-tour-id="' + id + '"]') || q(id);
+  return document.querySelector('[data-tour-id="' + id + '"]') || document.querySelector(id);
 }
 
 function coerce(selectorOrNode) {
@@ -14,7 +13,7 @@ function coerce(selectorOrNode) {
     // node or empty
     return selectorOrNode;
   }
-  var el = q(selectorOrNode);
+  var el = document.querySelector(selectorOrNode);
   if (el.nodeName === 'TEMPLATE' && el.content) {
     return el.content;
   }
@@ -23,7 +22,7 @@ function coerce(selectorOrNode) {
 
 // parse HTML to create a list of steps - tour-id / tour-content need to match
 function steps(container) {
-  return Array.prototype.map.call(q.all('[data-tour-content]', container), function(el) {
+  return Array.prototype.map.call(container.querySelectorAll('[data-tour-content]'), function(el) {
     var id = el.dataset.tourContent;
     return {
       id: id,
@@ -99,7 +98,7 @@ Tour.prototype.play = function(index) {
 
 // hides next button for last step
 Tour.prototype.updateNext = function() {
-  q('.ok', this.popover.el).classList.toggle('hidden', this.current + 1 >= this.steps.length);
+  this.popover.el.querySelector('.ok').classList.toggle('hidden', this.current + 1 >= this.steps.length);
 };
 
 // marks element associated with active step
