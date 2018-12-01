@@ -1,4 +1,12 @@
 
+3.0.0 / 2018-11-30
+==================
+
+ * use standard forEach method of NodeList
+ * rewrite in ES6
+ * remove component-query
+ * update @pirxpilot/confirmation-popover to ~2
+
 2.0.0 / 2017-12-17
 ==================
 
