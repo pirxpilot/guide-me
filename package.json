@@ -14,12 +14,6 @@
     "@pirxpilot/overlay": "*",
     "component-emitter": "^1.1.2"
   },
-  "browser": {
-    "emitter": "component-emitter",
-    "confirmation-popover": "@pirxpilot/confirmation-popover",
-    "overlay": "@pirxpilot/overlay",
-    "query": "component-query"
-  },
   "author": "Damian Krzeminski <pirxpilot@furkot.com>",
   "license": "MIT",
   "devDependencies": {

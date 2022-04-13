@@ -1,6 +1,6 @@
-const overlay = require('overlay');
-const Popover = require('confirmation-popover');
-const Emitter = require('emitter');
+const overlay = require('@pirxpilot/overlay');
+const Popover = require('@pirxpilot/confirmation-popover');
+const Emitter = require('component-emitter');
 
 function id2el(id) {
   return document.querySelector(`[data-tour-id="${id}"]`) || document.querySelector(id);
