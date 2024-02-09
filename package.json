@@ -17,7 +17,8 @@
   "author": "Damian Krzeminski <pirxpilot@furkot.com>",
   "license": "MIT",
   "devDependencies": {
-    "stringify": "~5"
+    "@pirxpilot/jshint": "^3.0.1",
+    "esbuild": "^0.20.0"
   },
   "files": [
     "index.js"

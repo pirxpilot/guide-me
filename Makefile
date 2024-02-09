@@ -1,11 +1,6 @@
-PROJECT=tour
+PROJECT=Tour
 
 all: check compile
-
-check: lint
-
-lint:
-	jshint index.js
 
 compile: build/build.js build/build.css
 
@@ -13,9 +8,12 @@ build:
 	mkdir -p $@
 
 build/build.js: node_modules index.js | build
-	browserify --require ./index.js:$(PROJECT) --outfile $@
-
-.DELETE_ON_ERROR: build/build.js
+	node_modules/.bin/esbuild \
+		--bundle \
+		--define:DEBUG="true" \
+		--global-name=$(PROJECT) \
+		--outfile=$@ \
+		index.js
 
 build/build.css: \
 	node_modules/@pirxpilot/overlay/overlay.css \
@@ -25,9 +23,18 @@ build/build.css: \
 	cat $^ > $@
 
 node_modules: package.json
-	yarn && touch $@
+	yarn
+	touch $@
 
 clean:
-	rm -fr build node_modules
+	rm -fr build
 
-.PHONY: clean lint check all build
+distclean: clean
+	rm -rf node_modules
+
+check: lint
+
+lint:
+	./node_modules/.bin/jshint *.js lib
+
+.PHONY: check lint check compile

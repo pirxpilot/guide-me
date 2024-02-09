@@ -1,3 +1,4 @@
+[![NPM version][npm-image]][npm-url]
 
 # tour
 
@@ -156,3 +157,7 @@ var tour = require('tour')(null, { labels: customLabels });
   THE SOFTWARE.
 
 [npm]: https://www.npmjs.org/
+
+[npm-image]: https://img.shields.io/npm/v/guide-me
+[npm-url]: https://npmjs.org/package/guide-me
+
