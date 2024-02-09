@@ -162,7 +162,6 @@
     <script src="build/build.js"></script>
     <script>
       var customLabels = { cancel: 'Got it!' };
-      var Tour = require('tour');
       var tour = new Tour('#example-tour', { labels: customLabels });
       document.querySelector('.start').addEventListener('click', function() {
         tour.play();
