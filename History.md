@@ -1,4 +1,12 @@
 
+4.0.0 / 2025-05-12
+==================
+
+ * update dependencies
+ * transition to ESM format
+ * use `biome` as a linter and formatter
+ * replace browserify with esbuild
+
 3.0.1 / 2022-04-13
 ==================
 
