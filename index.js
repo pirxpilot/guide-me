@@ -1,6 +1,6 @@
-const overlay = require('@pirxpilot/overlay');
-const Popover = require('@pirxpilot/confirmation-popover');
-const Emitter = require('component-emitter');
+import Popover from '@pirxpilot/confirmation-popover';
+import overlay from '@pirxpilot/overlay';
+import Emitter from 'component-emitter';
 
 function id2el(id) {
   return document.querySelector(`[data-tour-id="${id}"]`) || document.querySelector(id);
@@ -21,7 +21,7 @@ function coerce(selectorOrNode) {
 // parse HTML to create a list of steps - tour-id / tour-content need to match
 function steps(container) {
   const result = [];
-  container.querySelectorAll('[data-tour-content]').forEach(function(el) {
+  container.querySelectorAll('[data-tour-content]').forEach(el => {
     const id = el.dataset.tourContent;
     const refEl = id2el(id);
     const absent = el.dataset.contentAbsent !== undefined;
@@ -44,28 +44,27 @@ function steps(container) {
 }
 
 function createPopover(step) {
-  const self = this;
   if (step.absent) {
     step.refEl = id2el(step.id);
-    self.markStep(true);
+    this.markStep(true);
   }
-  self.popover = new Popover(step.contentEl.cloneNode(true));
-  self.popover.classname += ' tour-popover';
-  self.popover.el.classList.add('tour-popover');
-  self.updateNext();
-  self.popover
-    .cancel(self.labels.cancel)
-    .ok(self.labels.ok)
+  this.popover = new Popover(step.contentEl.cloneNode(true));
+  this.popover.classname += ' tour-popover';
+  this.popover.el.classList.add('tour-popover');
+  this.updateNext();
+  this.popover
+    .cancel(this.labels.cancel)
+    .ok(this.labels.ok)
     .focus('ok')
-    .on('show', () => self.emit('show', self.current))
-    .on('hide', () => self.emit('hide', self.current))
-    .on('cancel', () => self.end())
-    .on('ok', () => self.next())
+    .on('show', () => this.emit('show', this.current))
+    .on('hide', () => this.emit('hide', this.current))
+    .on('cancel', () => this.end())
+    .on('ok', () => this.next())
     .position(step.position)
     .show(step.refEl);
 }
 
-class Tour extends Emitter {
+export default class Tour extends Emitter {
   static of(...args) {
     return new Tour(...args);
   }
@@ -74,10 +73,13 @@ class Tour extends Emitter {
     super();
     this.steps = steps(coerce(container));
     this.current = 0;
-    this.labels = Object.assign({
-      ok: 'Next',
-      cancel: 'Close'
-    }, labels);
+    this.labels = Object.assign(
+      {
+        ok: 'Next',
+        cancel: 'Close'
+      },
+      labels
+    );
   }
 
   overlay(options) {
@@ -87,16 +89,14 @@ class Tour extends Emitter {
   }
 
   play(index) {
-    const self = this;
-
-    self.emit('begin');
-    if (self._overlay) {
-      self._overlay.show();
+    this.emit('begin');
+    if (this._overlay) {
+      this._overlay.show();
     }
     if (typeof index === 'number') {
-      self.current = index;
+      this.current = index;
     }
-    self.showStep();
+    this.showStep();
   }
 
   // hides next button for last step
@@ -120,16 +120,14 @@ class Tour extends Emitter {
   }
 
   showStep() {
-    let step;
-
     this.current %= this.steps.length;
-    step = this.steps[this.current];
+    const step = this.steps[this.current];
 
     if (!step) {
       return;
     }
     if (!step.absent) {
-        this.markStep(true);
+      this.markStep(true);
     }
 
     this.hideStep();
@@ -156,7 +154,7 @@ class Tour extends Emitter {
     }
 
     const popover = this.popover.hide();
-    setTimeout(function() {
+    setTimeout(() => {
       popover.show(step.refEl);
       popover.classname += ' tour-reacted';
       popover.el.classList.add('tour-reacted');
@@ -179,5 +177,3 @@ class Tour extends Emitter {
     this.emit('end');
   }
 }
-
-module.exports = Tour;
