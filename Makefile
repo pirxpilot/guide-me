@@ -35,6 +35,9 @@ distclean: clean
 check: lint
 
 lint:
-	./node_modules/.bin/jshint *.js lib
+	./node_modules/.bin/biome ci
 
-.PHONY: check lint check compile
+format:
+	./node_modules/.bin/biome check --fix
+
+.PHONY: all clean distclean check lint format compile
