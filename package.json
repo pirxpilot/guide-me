@@ -2,6 +2,8 @@
   "name": "guide-me",
   "version": "3.0.1",
   "description": "Data driven feature tour.",
+  "type": "module",
+  "exports": "./index.js",
   "scripts": {
     "test": "make check"
   },

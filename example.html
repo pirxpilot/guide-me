@@ -161,6 +161,7 @@
     </template>
     <script src="build/build.js"></script>
     <script>
+      Tour = Tour.default;
       var customLabels = { cancel: 'Got it!' };
       var tour = new Tour('#example-tour', { labels: customLabels });
       document.querySelector('.start').addEventListener('click', function() {

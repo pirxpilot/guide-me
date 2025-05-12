@@ -1,6 +1,6 @@
-const overlay = require('@pirxpilot/overlay');
-const Popover = require('@pirxpilot/confirmation-popover');
-const Emitter = require('component-emitter');
+import Popover from '@pirxpilot/confirmation-popover';
+import overlay from '@pirxpilot/overlay';
+import Emitter from 'component-emitter';
 
 function id2el(id) {
   return document.querySelector(`[data-tour-id="${id}"]`) || document.querySelector(id);
@@ -64,7 +64,7 @@ function createPopover(step) {
     .show(step.refEl);
 }
 
-class Tour extends Emitter {
+export default class Tour extends Emitter {
   static of(...args) {
     return new Tour(...args);
   }
@@ -177,5 +177,3 @@ class Tour extends Emitter {
     this.emit('end');
   }
 }
-
-module.exports = Tour;
