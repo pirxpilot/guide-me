@@ -15,9 +15,9 @@
     "browser"
   ],
   "dependencies": {
-    "@pirxpilot/confirmation-popover": "~2",
-    "@pirxpilot/overlay": "~1",
-    "component-emitter": "^1.1.2"
+    "@pirxpilot/confirmation-popover": "~3",
+    "@pirxpilot/overlay": "~2",
+    "component-emitter": "~2"
   },
   "author": "Damian Krzeminski <pirxpilot@furkot.com>",
   "license": "MIT",
