@@ -7,7 +7,7 @@ compile: build/build.js build/build.css
 build:
 	mkdir -p $@
 
-build/build.js: node_modules index.js | build
+build/build.js: index.js | build
 	node_modules/.bin/esbuild \
 		--bundle \
 		--define:DEBUG="true" \
@@ -22,15 +22,8 @@ build/build.css: \
 	| build
 	cat $^ > $@
 
-node_modules: package.json
-	yarn
-	touch $@
-
 clean:
 	rm -fr build
-
-distclean: clean
-	rm -rf node_modules
 
 check: lint
 
@@ -40,4 +33,4 @@ lint:
 format:
 	./node_modules/.bin/biome check --fix
 
-.PHONY: all clean distclean check lint format compile
+.PHONY: all clean check lint format compile
