@@ -1,17 +1,16 @@
-<html>
+<html lang="en">
   <head>
     <title>Tour</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <link rel="stylesheet" href="build/build.css" type="text/css">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="build/build.css" type="text/css" />
     <style>
-
       body {
         padding: 4em;
-        background-color: #FFDC00;
+        background-color: #ffdc00;
       }
 
       .tip-inner {
-        background-color: rgba(0,0,0,.75);
+        background-color: rgba(0, 0, 0, 0.75);
         color: #fff;
         padding: 2px;
         text-align: center;
@@ -22,13 +21,21 @@
         width: 0;
         height: 0;
         line-height: 0;
-        border: 5px dashed rgba(0,0,0,.75);
+        border: 5px dashed rgba(0, 0, 0, 0.75);
       }
 
-      .tip-arrow-top { border-top-color: rgba(0,0,0,.75) }
-      .tip-arrow-bottom { border-bottom-color: rgba(0,0,0,.75) }
-      .tip-arrow-left { border-left-color: rgba(0,0,0,.75) }
-      .tip-arrow-right { border-right-color: rgba(0,0,0,.75) }
+      .tip-arrow-top {
+        border-top-color: rgba(0, 0, 0, 0.75);
+      }
+      .tip-arrow-bottom {
+        border-bottom-color: rgba(0, 0, 0, 0.75);
+      }
+      .tip-arrow-left {
+        border-left-color: rgba(0, 0, 0, 0.75);
+      }
+      .tip-arrow-right {
+        border-right-color: rgba(0, 0, 0, 0.75);
+      }
 
       .tip-top .tip-arrow,
       .tip-top-left .tip-arrow,
@@ -39,7 +46,7 @@
         border-top-style: solid;
         border-bottom: none;
         border-left-color: transparent;
-        border-right-color: transparent
+        border-right-color: transparent;
       }
 
       .tip-bottom .tip-arrow,
@@ -51,7 +58,7 @@
         border-bottom-style: solid;
         border-top: none;
         border-left-color: transparent;
-        border-right-color: transparent
+        border-right-color: transparent;
       }
 
       .tip-left .tip-arrow {
@@ -61,7 +68,7 @@
         border-left-style: solid;
         border-right: none;
         border-top-color: transparent;
-        border-bottom-color: transparent
+        border-bottom-color: transparent;
       }
 
       .tip-right .tip-arrow {
@@ -71,18 +78,18 @@
         border-right-style: solid;
         border-left: none;
         border-top-color: transparent;
-        border-bottom-color: transparent
+        border-bottom-color: transparent;
       }
 
       .overlay.tour-overlay {
-        background-color: rgba(255, 255, 255, .3);
+        background-color: rgba(255, 255, 255, 0.3);
       }
 
       .hidden {
         display: none;
       }
 
-      [data-tour-id="button"] {
+      [data-tour-id='button'] {
         display: block;
         float: right;
       }
@@ -91,7 +98,7 @@
         display: block;
         clear: both;
         margin: 3em auto;
-        transition: all .3s ease-in-out;
+        transition: all 0.3s ease-in-out;
         width: 288px;
       }
 
@@ -104,11 +111,11 @@
         box-shadow: 0 0 15px black;
       }
 
-      [data-tour-id="text"] {
+      [data-tour-id='text'] {
         display: block;
         width: 30%;
         padding: 1em;
-        background-color: rgba(255, 255, 255, .8);
+        background-color: rgba(255, 255, 255, 0.8);
       }
 
       .buttons button {
@@ -139,48 +146,52 @@
     </style>
   </head>
   <body>
-    <div class='buttons'>
-      <button class="start">Click to Start Tour</button>
-      <button class="start-overlay">Click to Start Tour with Overlay</button>
+    <div class="buttons">
+      <button class="start" type="button">Click to Start Tour</button>
+      <button class="start-overlay" type="button">Click to Start Tour with Overlay</button>
     </div>
-    <input data-tour-id="button" type="submit" value="Important button"></input>
-    <img class="flowers" src='https://lh3.googleusercontent.com/-ndFbEVL6ZsQ/UqUV6v5XWvI/AAAAAAAAfnw/_4FYnvUYMDU/s288/P1400253.JPG'>
+    <input data-tour-id="button" type="submit" value="Important button" />
+    <img
+      class="flowers"
+      alt="flowers"
+      src="https://lh3.googleusercontent.com/-ndFbEVL6ZsQ/UqUV6v5XWvI/AAAAAAAAfnw/_4FYnvUYMDU/s288/P1400253.JPG"
+    />
     <p data-tour-id="text">
-      Id eros vidit pri. Ad amet explicari vel. Cum ne patrioque voluptatum, sed mutat facilisi no. Quem detraxit has at, nec at wisi signiferumque, ea sit amet legimus. Erat munere accusam ne sed, an eos delenit inermis omittantur.
+      Id eros vidit pri. Ad amet explicari vel. Cum ne patrioque voluptatum, sed mutat facilisi no.
+      Quem detraxit has at, nec at wisi signiferumque, ea sit amet legimus. Erat munere accusam ne
+      sed, an eos delenit inermis omittantur.
     </p>
     <p class="status"></p>
-    <template id='example-tour'>
+    <template id="example-tour">
       <span data-tour-content="button">This is how we start the tour.</span>
       <div data-tour-content=".flowers" data-position="left" data-delay="100">
-        <p class='before'>Try clicking on this photo. It should change its size.</p>
-        <p class='after'><em>Good job!</em></p>
+        <p class="before">Try clicking on this photo. It should change its size.</p>
+        <p class="after"><em>Good job!</em></p>
       </div>
-      <div data-tour-content="text" data-position="top">
-        And that is the last element...
-      </div>
+      <div data-tour-content="text" data-position="top">And that is the last element...</div>
     </template>
     <script src="build/build.js"></script>
     <script>
       Tour = Tour.default;
-      var customLabels = { cancel: 'Got it!' };
-      var tour = new Tour('#example-tour', { labels: customLabels });
-      document.querySelector('.start').addEventListener('click', function() {
+      const customLabels = { cancel: 'Got it!' };
+      const tour = new Tour('#example-tour', { labels: customLabels });
+      document.querySelector('.start').addEventListener('click', () => {
         tour.play();
       });
-      document.querySelector('.flowers').addEventListener('click', function(e) {
+      document.querySelector('.flowers').addEventListener('click', e => {
         tour.react(300);
         e.target.classList.toggle('big');
       });
-      document.querySelector('.start-overlay').addEventListener('click', function() {
+      document.querySelector('.start-overlay').addEventListener('click', () => {
         Tour.of('#example-tour').overlay().play();
       });
-      tour.on('next', function(index) {
-        document.querySelector('.status').textContent = 'Next step: ' + index;
+      tour.on('next', index => {
+        document.querySelector('.status').textContent = `Next step: ${index}`;
       });
-      tour.on('begin', function() {
+      tour.on('begin', () => {
         document.querySelector('.status').textContent = 'Tour started';
       });
-      tour.on('end', function() {
+      tour.on('end', () => {
         document.querySelector('.status').textContent = 'Tour completed';
       });
     </script>
